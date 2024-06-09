@@ -8,6 +8,9 @@ public:
     static auto GenerateListGraphRepresentation(int numberOfNodes, float fill) -> ListGraph;
     static auto GenerateMatrixGraphRepresentation(int numberOfNodes, float fill) -> MatrixGraph;
 
+    static auto ListGraphToMatrixGraph(const ListGraph& listGraph) -> MatrixGraph;
+    static auto MatrixGraphToListGraph(const MatrixGraph& matrixGraph) -> ListGraph;
+
 private:
     static int CalculateNumberOfEdges(int nodeCount, float fill);
     

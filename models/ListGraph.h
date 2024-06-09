@@ -18,7 +18,9 @@ struct ListGraph
     int edgeCount;
     Adjacency** nodes;
 
+    ListGraph(int nodeCount);
     ~ListGraph();
+    static bool AdjacencyExists(Adjacency* nodeAdjacencies, int toNode);
     void AddAdjacency(const int fromNode, const int toNode, const unsigned int value); 
     std::string ToString() const;
 };

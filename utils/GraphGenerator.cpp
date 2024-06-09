@@ -28,6 +28,47 @@ void GraphGenerator::FillRandomSpanningTreeAdjacency(MatrixGraph& matrixGraph)
     }
 }
 
+MatrixGraph GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
+{
+    MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.edgeCount / 2);
+    int edgeIndex = 0;
+    for (int i = 0; i < listGraph.nodeCount; ++i) {
+        Adjacency* adjacency = listGraph.nodes[i];
+        while (adjacency != nullptr) {
+            matrixGraph->AddEdge(edgeIndex, i, adjacency->adjacentTo, adjacency->value);
+            edgeIndex++;
+            adjacency = adjacency->next;
+        }
+    }
+    return *matrixGraph;
+}
+
+ListGraph GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
+{
+    ListGraph* listGraph = new ListGraph(matrixGraph.nodeCount);
+    for (int i = 0; i < matrixGraph.edgeCount*2; i++) {
+        int fromNode = -1;
+        int toNode = -1;
+        unsigned int value = 0;
+        for (int j = 0; j < matrixGraph.nodeCount; j++) {
+            if (matrixGraph.values[j][i] != 0) {
+                value = matrixGraph.values[j][i];
+                if (fromNode == -1)
+                {
+                    fromNode = j;
+                }
+                else
+                {
+                    toNode = j;
+                    break;
+                }                
+            } 
+        }
+        listGraph->AddAdjacency(fromNode, toNode, value);
+    }
+    return *listGraph;
+}
+
 void GraphGenerator::GenerateSpanningTree(MatrixGraph& matrixGraph)
 {
     for (int i = 1; i < matrixGraph.nodeCount; i++)
@@ -61,15 +102,11 @@ void GraphGenerator::FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int n
 
 auto GraphGenerator::GenerateListGraphRepresentation(int numberOfNodes, float fill) -> ListGraph
 {
-    ListGraph listGraph;
-    listGraph.nodeCount = numberOfNodes;
-    // listGraph.nodes = new Adjacency*[numberOfNodes]();
-    Adjacency** nodes = new Adjacency*[numberOfNodes]();
-    listGraph.nodes = nodes;
-    GenerateSpanningTree(listGraph);
-    const int numberOfEdgesToFill = CalculateNumberOfEdges(listGraph.nodeCount, fill) - numberOfNodes + 1;
-    FillRandomSpanningTreeAdjacency(listGraph, numberOfEdgesToFill);
-    return listGraph; 
+    ListGraph* listGraph = new ListGraph(numberOfNodes);
+    GenerateSpanningTree(*listGraph);
+    const int numberOfEdgesToFill = CalculateNumberOfEdges(numberOfNodes, fill) - numberOfNodes + 1;
+    FillRandomSpanningTreeAdjacency(*listGraph, numberOfEdgesToFill);
+    return *listGraph; 
 }
 
 

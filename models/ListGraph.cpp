@@ -14,8 +14,17 @@ Adjacency::Adjacency(int adjacentTo, const unsigned value, Adjacency* next)
 string Adjacency::ToString() const
 {
     ostringstream oss;
-    oss << "Adjacency[->N:" << adjacentTo << ",V:" << value << "]";
-    return oss.str();  
+    oss << "[->N:" << adjacentTo << ",V:" << value << "]";
+    return oss.str();
+}
+
+ListGraph::ListGraph(int nodeCount): nodeCount(nodeCount),
+                                     edgeCount(0)
+{
+    // TODO: problem with memory????
+    // nodes = new Adjacency*[nodeCount]();
+    Adjacency** nodes_ = new Adjacency*[nodeCount]();
+    nodes = nodes_;
 }
 
 ListGraph::~ListGraph()
@@ -36,6 +45,20 @@ ListGraph::~ListGraph()
     nodes = nullptr;
 }
 
+bool ListGraph::AdjacencyExists(Adjacency* nodeAdjacencies, int toNode)
+{
+    Adjacency* it = nodeAdjacencies;
+    while (it != nullptr)
+    {
+        if (it->adjacentTo == toNode)
+        {
+            return true;
+        }
+        it = it->next;
+    }
+    return false;
+}
+
 string ListGraph::ToString() const
 {
     ostringstream oss;
@@ -52,19 +75,25 @@ string ListGraph::ToString() const
         oss << '\n';
     }
     oss << ']' << '\n';
-    return oss.str(); 
+    return oss.str();
 }
 
 void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigned int value)
 {
     // fromNode adjacency
-    Adjacency* next = nodes[fromNode];
-    Adjacency* newAdjacentTo = new Adjacency(toNode, value, next);
-    nodes[fromNode] =  newAdjacentTo;
+    if (!AdjacencyExists(nodes[fromNode], toNode))
+    {
+        Adjacency* next = nodes[fromNode];
+        Adjacency* newAdjacentTo = new Adjacency(toNode, value, next);
+        nodes[fromNode] = newAdjacentTo;
+        edgeCount += 1;
+    }
     // toNode adjacency
-    next = nodes[toNode];
-    newAdjacentTo = new Adjacency(fromNode, value, next);
-    nodes[toNode] =  newAdjacentTo;
-    
-    edgeCount += 1;
+    if (!AdjacencyExists(nodes[toNode], fromNode))
+    {
+        Adjacency* next = nodes[toNode];
+        Adjacency* newAdjacentTo = new Adjacency(fromNode, value, next);
+        nodes[toNode] = newAdjacentTo;
+        edgeCount += 1;
+    }
 }

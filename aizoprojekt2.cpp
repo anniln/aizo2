@@ -40,8 +40,13 @@ std::string GetProblemName(Problem problem)
 int main(int argc, char* argv[])
 {
     try {
-    MatrixGraph graph = GraphGenerator::GenerateMatrixGraphRepresentation(5, 0.5);
-    cout << graph.ToString();
+    ListGraph listGraph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
+    cout << listGraph.ToString();
+    MatrixGraph matrixGraph = GraphGenerator::ListGraphToMatrixGraph(listGraph);
+        cout << matrixGraph.ToString();
+        cout.flush();
+    ListGraph listGraph2 = GraphGenerator::MatrixGraphToListGraph(matrixGraph);
+        cout << listGraph2.ToString();
     
     // string testOutput = R"(C:\Temp\SortTest)";
     // auto testIterations = 100;
