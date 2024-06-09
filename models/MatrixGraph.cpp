@@ -11,7 +11,7 @@ MatrixGraph::MatrixGraph(int nodeCount, int edgeCount): nodeCount(nodeCount),
     values = new unsigned int*[nodeCount]();
     for (int i = 0; i < nodeCount; i++)
     {
-        values[i] = new unsigned int[edgeCount]();
+        values[i] = new unsigned int[edgeCount*2]();
     }
 }
 
@@ -37,7 +37,7 @@ std::string MatrixGraph::ToString() const
     oss << "MatrixGraph[" << '\n';
     for (int i = 0; i < nodeCount; i++)
     {
-        for (int j = 0; j < edgeCount; j++)
+        for (int j = 0; j < edgeCount*2; j++)
         {
             oss << setw(2) << values[i][j];
         }

@@ -15,9 +15,10 @@ struct Adjacency
 struct ListGraph
 {
     int nodeCount;
+    int edgeCount;
     Adjacency** nodes;
 
     ~ListGraph();
-    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value) const; 
+    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value); 
     std::string ToString() const;
 };

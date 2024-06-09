@@ -55,7 +55,7 @@ string ListGraph::ToString() const
     return oss.str(); 
 }
 
-void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigned int value) const
+void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigned int value)
 {
     // fromNode adjacency
     Adjacency* next = nodes[fromNode];
@@ -65,4 +65,6 @@ void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigne
     next = nodes[toNode];
     newAdjacentTo = new Adjacency(fromNode, value, next);
     nodes[toNode] =  newAdjacentTo;
+    
+    edgeCount += 1;
 }

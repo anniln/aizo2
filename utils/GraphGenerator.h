@@ -9,10 +9,11 @@ public:
     static auto GenerateMatrixGraphRepresentation(int numberOfNodes, float fill) -> MatrixGraph;
 
 private:
-    static auto GenerateSpanningTree(ListGraph& listGraph);
-    static auto GenerateSpanningTree(MatrixGraph& listGraph);
     static int CalculateNumberOfEdges(int nodeCount, float fill);
-    static auto FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill);
-    static auto ConvertListGraphToMatrixGraph(ListGraph& listGraph) -> MatrixGraph;
-    static auto ConvertListMatrixToListGraph(MatrixGraph& listGraph) -> ListGraph;
+    
+    static void GenerateSpanningTree(ListGraph& listGraph);
+    static void FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill);
+    
+    static void GenerateSpanningTree(MatrixGraph& matrixGraph);
+    static void FillRandomSpanningTreeAdjacency(MatrixGraph& matrixGraph);
 };

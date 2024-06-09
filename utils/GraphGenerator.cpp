@@ -6,7 +6,29 @@
 #include "RandomGenerator.h"
 #include "../models/ListGraph.h"
 
-auto GraphGenerator::GenerateSpanningTree(MatrixGraph& matrixGraph)
+auto GraphGenerator::GenerateMatrixGraphRepresentation(int numberOfNodes, float fill) -> MatrixGraph
+{
+    MatrixGraph matrixGraph(numberOfNodes, CalculateNumberOfEdges(numberOfNodes, fill));
+    GenerateSpanningTree(matrixGraph);
+    FillRandomSpanningTreeAdjacency(matrixGraph);
+    return matrixGraph;
+}
+
+void GraphGenerator::FillRandomSpanningTreeAdjacency(MatrixGraph& matrixGraph)
+{
+    for (int i = matrixGraph.nodeCount-1; i < matrixGraph.edgeCount*2; i++)
+    {
+        int fromNode = RandomGenerator::random(0, matrixGraph.nodeCount-1);
+        int toNode;
+        do {
+            toNode = RandomGenerator::random(0, matrixGraph.nodeCount-1);
+        } while(fromNode == toNode);
+        matrixGraph.AddEdge(i, fromNode, toNode, RandomGenerator::random(1, matrixGraph.nodeCount));
+        
+    }
+}
+
+void GraphGenerator::GenerateSpanningTree(MatrixGraph& matrixGraph)
 {
     for (int i = 1; i < matrixGraph.nodeCount; i++)
     {
@@ -16,27 +38,7 @@ auto GraphGenerator::GenerateSpanningTree(MatrixGraph& matrixGraph)
 }
 
 
-auto GraphGenerator::GenerateMatrixGraphRepresentation(int numberOfNodes, float fill) -> MatrixGraph
-{
-    MatrixGraph matrixGraph(numberOfNodes, CalculateNumberOfEdges(numberOfNodes, fill) * 2);
-    GenerateSpanningTree(matrixGraph);
-    
-    return matrixGraph;
-}
-
-
-
-auto GraphGenerator::ConvertListGraphToMatrixGraph(ListGraph& listGraph) -> MatrixGraph
-{
-    return MatrixGraph(0,0);
-}
-
-auto GraphGenerator::ConvertListMatrixToListGraph(MatrixGraph& listGraph) -> ListGraph
-{
-    return ListGraph();
-}
-
-auto GraphGenerator::GenerateSpanningTree(ListGraph& listGraph)
+void GraphGenerator::GenerateSpanningTree(ListGraph& listGraph)
 {
     for(int i = 1; i < listGraph.nodeCount; i++)
     {
@@ -49,7 +51,7 @@ int GraphGenerator::CalculateNumberOfEdges(int nodeCount, float fill)
     return static_cast<int>(((nodeCount - 1) * nodeCount / 2.0) * fill);
 }
 
-auto GraphGenerator::FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill)
+void GraphGenerator::FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill)
 {
     for (int i = 1; i <= numberOfEdgesToFill; i++)
     {
