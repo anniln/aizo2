@@ -72,6 +72,11 @@ ListGraph::~ListGraph()
     nodes = nullptr;
 }
 
+bool ListGraph::AdjacencyExists(int fromNode, int toNode) const
+{
+    return ListGraph::AdjacencyExists(nodes[fromNode], toNode); 
+}
+
 bool ListGraph::AdjacencyExists(Adjacency* nodeAdjacencies, int toNode)
 {
     Adjacency* it = nodeAdjacencies;

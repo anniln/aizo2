@@ -52,7 +52,7 @@ template <typename T> T* FreeGraph(T* graph)
 
 int main(int argc, char* argv[])
 {
-    ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 5, 0.5);
+    ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 10, 0.75);
     cout << graph->ToString();
     DijkstryAlgorithmOnDirectedListGraph tester;
     tester.TestGraphAlgorithm(*graph, 0, 7);

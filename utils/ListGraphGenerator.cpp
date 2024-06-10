@@ -39,9 +39,16 @@ int GraphGenerator::CalculateNumberOfEdges(int nodeCount, float fill)
 
 void GraphGenerator::FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill)
 {
-    for (int i = 1; i <= numberOfEdgesToFill; i++)
+    for (int i = 0; i < numberOfEdgesToFill; i++)
     {
-        listGraph.AddAdjacency(i, i + 1, RandomGenerator::random(1, listGraph.nodeCount));
+        int fromNode = -1;
+        int toNode = -1;
+        do
+        {
+            fromNode = RandomGenerator::random(0, listGraph.nodeCount-1);
+            toNode = RandomGenerator::random(0, listGraph.nodeCount-1);
+        } while (fromNode == toNode || listGraph.AdjacencyExists(fromNode, toNode));
+        listGraph.AddAdjacency(fromNode, toNode, RandomGenerator::random(1, listGraph.nodeCount));
     }
 }
 

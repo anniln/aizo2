@@ -25,6 +25,7 @@ struct ListGraph
     ListGraph(int nodeCount, GraphType graphType = Undirected);
     ~ListGraph();
     static bool AdjacencyExists(Adjacency* nodeAdjacencies, int toNode);
+    bool AdjacencyExists(int fromNode, int toNode) const;
     void AddAdjacency(const int fromNode, const int toNode, const unsigned int value);
     Edge* GetEdges() const;
     std::string ToString() const;
