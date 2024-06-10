@@ -155,17 +155,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aizoprojekt2.cpp" />
+    <ClCompile Include="models\Edge.cpp" />
     <ClCompile Include="models\ListGraph.cpp" />
     <ClCompile Include="models\MatrixGraph.cpp" />
+    <ClCompile Include="testers\GraphAlgorithmTester.cpp" />
+    <ClCompile Include="testers\KluskalAlgorithmOnUndirectedGraphTester.cpp" />
+    <ClCompile Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.cpp" />
+    <ClCompile Include="testers\PrimAlgorithmOnUndirectedListGraphTester.cpp" />
     <ClCompile Include="utils\GraphGenerator.cpp" />
     <ClCompile Include="utils\RandomGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="testers\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="models\Edge.h" />
     <ClInclude Include="models\ListGraph.h" />
     <ClInclude Include="models\MatrixGraph.h" />
+    <ClInclude Include="testers\GraphAlgorithmTester.h" />
+    <ClInclude Include="testers\KluskalAlgorithmOnUndirectedGraphTester.h" />
+    <ClInclude Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.h" />
+    <ClInclude Include="testers\PrimAlgorithmOnUndirectedListGraphTester.h" />
     <ClInclude Include="utils\GraphGenerator.h" />
     <ClInclude Include="utils\RandomGenerator.h" />
   </ItemGroup>

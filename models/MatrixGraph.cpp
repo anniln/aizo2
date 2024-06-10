@@ -25,10 +25,10 @@ MatrixGraph::~MatrixGraph()
     delete [] values;
 }
 
-void MatrixGraph::AddEdge(const int edge, const int fromNode, const int toNode, const unsigned int value) const 
+void MatrixGraph::AddEdge(const int edge, const int node1, const int node2, const unsigned int value) const 
 {
-    values[fromNode][edge] = value;
-    values[toNode][edge] = value;
+    values[node1][edge] = value;
+    values[node2][edge] = value;
 }
 
 std::string MatrixGraph::ToString() const

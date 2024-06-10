@@ -9,6 +9,6 @@ struct MatrixGraph
 
     MatrixGraph(int nodeCount, int edgeCount);
     ~MatrixGraph();
-    void AddEdge(int edge, int fromNode, int toNode, unsigned int value) const;
+    void AddEdge(int edge, int node1, int node2, unsigned int value) const;
     std::string ToString() const;
 };

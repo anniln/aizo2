@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
 
+#include "Edge.h"
+
 struct Adjacency
 {
     Adjacency(int adjacentTo, unsigned int value, Adjacency* next = nullptr);
@@ -21,6 +23,7 @@ struct ListGraph
     ListGraph(int nodeCount);
     ~ListGraph();
     static bool AdjacencyExists(Adjacency* nodeAdjacencies, int toNode);
-    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value); 
+    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value);
+    Edge* GetEdges() const;
     std::string ToString() const;
 };

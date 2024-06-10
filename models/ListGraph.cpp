@@ -1,5 +1,6 @@
 ﻿#include "ListGraph.h"
 
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -11,10 +12,36 @@ Adjacency::Adjacency(int adjacentTo, const unsigned value, Adjacency* next)
 {
 }
 
+Edge* ListGraph::GetEdges() const
+{
+    Edge* edges = nullptr;
+    Edge* last = nullptr;
+    for (int i = 0; i < nodeCount; ++i)
+    {
+        Adjacency* adj = nodes[i];
+        while (adj != nullptr)
+        {
+            Edge* newEdge = new Edge(i, adj->adjacentTo, adj->value);
+            if (edges == nullptr)
+            {
+                edges = newEdge;
+            }
+            else
+            {
+                last->next = newEdge;
+            }
+            last = newEdge;
+            adj = adj->next;
+        }
+    }
+    return edges;
+}
+
 string Adjacency::ToString() const
 {
     ostringstream oss;
-    oss << "[->N:" << adjacentTo << ",V:" << value << "]";
+    oss << "->(N:" << adjacentTo << ",v:" << value << ")";
+    //oss << "-" << value << "->[" << adjacentTo << "] ";
     return oss.str();
 }
 
