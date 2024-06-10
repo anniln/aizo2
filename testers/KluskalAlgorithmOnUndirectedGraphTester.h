@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 
-#include "GraphAlgorithmTester.h"
+#include "./GraphMstAlgorithmTester.h"
 #include "../models/ListGraph.h"
 #include "../models/Edge.h"
 
@@ -62,12 +62,12 @@ private:
     int* rank; // Tablica rang
 };
 
-class KluskalAlgorithmOnUndirectedGraphTester : GraphAlgorithmTester<ListGraph>
+class KluskalAlgorithmOnUndirectedGraphTester : GraphMstAlgorithmTester<ListGraph>
 {
 public:
     virtual ~KluskalAlgorithmOnUndirectedGraphTester() = default;
 
-    void TestGraphAlgorithm(ListGraph& graph) override
+    void TestGraphAlgorithm(const ListGraph& graph) override
     {
         Edge* edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
         edges = Edge::SortEdges(edges); // Sortowanie krawędzi według wagi

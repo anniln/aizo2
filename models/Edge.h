@@ -11,7 +11,8 @@ struct Edge
     unsigned int value;
     Edge* next;
 
-    Edge(int f, int t, unsigned int v) : fromNode(f), toNode(t), value(v), next(nullptr), edge(-1)
+    Edge() : edge(-1), fromNode(0), toNode(0), value(0), next(nullptr) {}
+    Edge(int f, int t, unsigned int v) : edge(-1), fromNode(f), toNode(t), value(v), next(nullptr) 
     {
     }
 

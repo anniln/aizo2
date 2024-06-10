@@ -45,8 +45,8 @@ string Adjacency::ToString() const
     return oss.str();
 }
 
-ListGraph::ListGraph(int nodeCount): nodeCount(nodeCount),
-                                     edgeCount(0)
+ListGraph::ListGraph(int nodeCount, GraphType graphType)
+: graphType(graphType), nodeCount(nodeCount), edgeCount(0)
 {
     // TODO: problem with memory????
     // nodes = new Adjacency*[nodeCount]();
@@ -116,11 +116,14 @@ void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigne
         edgeCount += 1;
     }
     // toNode adjacency
-    if (!AdjacencyExists(nodes[toNode], fromNode))
+    if (graphType == Undirected)
     {
-        Adjacency* next = nodes[toNode];
-        Adjacency* newAdjacentTo = new Adjacency(fromNode, value, next);
-        nodes[toNode] = newAdjacentTo;
-        edgeCount += 1;
+        if (!AdjacencyExists(nodes[toNode], fromNode))
+        {
+            Adjacency* next = nodes[toNode];
+            Adjacency* newAdjacentTo = new Adjacency(fromNode, value, next);
+            nodes[toNode] = newAdjacentTo;
+            edgeCount += 1;
+        }
     }
 }

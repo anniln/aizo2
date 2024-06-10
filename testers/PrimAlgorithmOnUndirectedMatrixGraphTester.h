@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "GraphAlgorithmTester.h"
+#include "GraphMstAlgorithmTester.h"
 #include "../models/MatrixGraph.h"
 #include <iostream>
 
-class PrimAlgorithmOnUndirectedMatrixGraphTester final : GraphAlgorithmTester<MatrixGraph>
+class PrimAlgorithmOnUndirectedMatrixGraphTester final : GraphMstAlgorithmTester<MatrixGraph>
 {
 public:
     // Funkcja pomocnicza do znalezienia minimalnego klucza
@@ -25,7 +25,7 @@ public:
     }
 
     // Algorytm Prima
-    void TestGraphAlgorithm(MatrixGraph& graph) override {
+    void TestGraphAlgorithm(const MatrixGraph& graph) override {
         unsigned int* key = new unsigned int[graph.nodeCount]; // tablica przechowująca minimalne wagi krawędzi
         int* parent = new int[graph.nodeCount]; // tablica przechowująca rodziców wierzchołków w MST
         bool* inMST = new bool[graph.nodeCount]; // tablica przechowująca informacje, czy wierzchołek jest w MST

@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "GraphAlgorithmTester.h"
+#include "GraphMstAlgorithmTester.h"
 #include "../models/ListGraph.h"
 #include <iostream>
 
-class PrimAlgorithmOnUndirectedListGraphTester final : GraphAlgorithmTester<ListGraph>
+class PrimAlgorithmOnUndirectedListGraphTester final : GraphMstAlgorithmTester<ListGraph>
 {
 public:
     // Funkcja pomocnicza do znalezienia minimalnego klucza
@@ -21,7 +21,7 @@ public:
     }
 
     //Algorytm Prima dla listy
-    void TestGraphAlgorithm(ListGraph& graph) override {
+    void TestGraphAlgorithm(const ListGraph& graph) override {
         // Wierzchołek startowy z góry założony
         int startNode = 0;
         // Tablica do przechowywania minimalnych wag krawędzi

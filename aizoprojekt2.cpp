@@ -1,6 +1,8 @@
 #include <iostream>
 
+#include "testers/DijkstryAlgorithmOnDirectedListGraph.h"
 #include "testers/KluskalAlgorithmOnUndirectedGraphTester.h"
+#include "testers/KruskalAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedListGraphTester.h"
 #include "utils/GraphGenerator.h"
@@ -50,15 +52,26 @@ template <typename T> T* FreeGraph(T* graph)
 
 int main(int argc, char* argv[])
 {
+    ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 5, 0.5);
+    cout << graph->ToString();
+    DijkstryAlgorithmOnDirectedListGraph tester;
+    tester.TestGraphAlgorithm(*graph, 0, 7);
+    delete graph;
+    
     //ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
+    //cout << graph->ToString();
     //PrimAlgorithmOnUndirectedListGraphTester tester;
     //tester.TestGraphAlgorithm(*graph);
-
-    //MatrixGraph graph2 = GraphGenerator::ListGraphToMatrixGraph(*graph);
-    //cout << graph2.ToString();
-    //PrimAlgorithmOnUndirectedMatrixGraphTester tester2;
-    //tester2.TestGraphAlgorithm(graph2);
     //delete graph;
+
+    // MatrixGraph* graph = GraphGenerator::GenerateMatrixGraphRepresentation(7, 0.5);
+    // cout << graph->ToString();
+    // cout.flush();
+    // PrimAlgorithmOnUndirectedMatrixGraphTester tester;
+    // tester.TestGraphAlgorithm(*graph);
+    // KruskalAlgorithmOnMatrixGraphTester tester2;
+    // tester2.TestGraphAlgorithm(*graph);
+    // delete graph;
 
     // MatrixGraph graph3(5, 7);
     // graph3.AddEdge(0,0, 1, 2);
@@ -80,14 +93,14 @@ int main(int argc, char* argv[])
     // tester2.TestGraphAlgorithm(*graph2);
     // delete graph2;
     
-    ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
-    cout << graph->ToString();
-    cout.flush();
-    KluskalAlgorithmOnUndirectedGraphTester tester;
-    PrimAlgorithmOnUndirectedListGraphTester tester2;
-    tester.TestGraphAlgorithm(*graph);
-    tester2.TestGraphAlgorithm(*graph);
-    delete graph;
+    // ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
+    // cout << graph->ToString();
+    // cout.flush();
+    // KluskalAlgorithmOnUndirectedGraphTester tester;
+    // PrimAlgorithmOnUndirectedListGraphTester tester2;
+    // tester.TestGraphAlgorithm(*graph);
+    // tester2.TestGraphAlgorithm(*graph);
+    // delete graph;
 }
 
 int main2(int argc, char* argv[])
@@ -149,13 +162,13 @@ int main2(int argc, char* argv[])
                         {
                             directedListGraph = FreeGraph<ListGraph>(directedListGraph);
                             undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
-                            undirectedListGraph = GraphGenerator::GenerateListGraphRepresentation(numberOfNodes, fill);
+                            undirectedListGraph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
                         }
                         else
                         {
                             directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
                             undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
-                            undirectedMatrixGraph = GraphGenerator::GenerateMatrixGraphRepresentation(numberOfNodes, fill);
+                            undirectedMatrixGraph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
                         }
                     }
                 else if ( option == "2")

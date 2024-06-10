@@ -5,8 +5,8 @@
 class GraphGenerator
 {
 public:
-    static auto GenerateListGraphRepresentation(int numberOfNodes, float fill) -> ListGraph*;
-    static auto GenerateMatrixGraphRepresentation(int numberOfNodes, float fill) -> MatrixGraph*;
+    static auto GenerateListGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> ListGraph*;
+    static auto GenerateMatrixGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> MatrixGraph*;
     static void FindPotentialEdge(MatrixGraph& matrixGraph, int& fromNode, int& toNode);
 
     static auto ListGraphToMatrixGraph(const ListGraph& listGraph) -> MatrixGraph;

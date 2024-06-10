@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Edge.h"
+#include "GraphType.h"
 
 struct Adjacency
 {
@@ -16,11 +17,12 @@ struct Adjacency
 
 struct ListGraph
 {
+    GraphType graphType;
     int nodeCount;
     int edgeCount;
     Adjacency** nodes;
 
-    ListGraph(int nodeCount);
+    ListGraph(int nodeCount, GraphType graphType = Undirected);
     ~ListGraph();
     static bool AdjacencyExists(Adjacency* nodeAdjacencies, int toNode);
     void AddAdjacency(const int fromNode, const int toNode, const unsigned int value);
