@@ -9,8 +9,8 @@
 auto GraphGenerator::GenerateMatrixGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> MatrixGraph*
 {
     MatrixGraph* matrixGraph = new MatrixGraph(numberOfNodes, CalculateNumberOfEdges(numberOfNodes, fill), graphType);
-    GenerateSpanningTree(matrixGraph);
-    // FillRandomSpanningTreeAdjacency(matrixGraph);
+    GenerateSpanningTree(*matrixGraph);
+    FillRandomSpanningTreeAdjacency(*matrixGraph);
     return matrixGraph;
 }
 
@@ -24,18 +24,18 @@ void GraphGenerator::FindPotentialEdge(const MatrixGraph& matrixGraph, int& from
     while (fromNode == toNode);
 }
 
-void GraphGenerator::FillRandomSpanningTreeAdjacency(const MatrixGraph* matrixGraph)
+void GraphGenerator::FillRandomSpanningTreeAdjacency(const MatrixGraph& matrixGraph)
 {
-    for (int i = matrixGraph->nodeCount; i < matrixGraph->edgeCount * 2; i++)
+    for (int i = matrixGraph.nodeCount; i < matrixGraph.edgeCount * matrixGraph.edgeMultiplier; i++) 
     {
         int fromNode = -1;
         int toNode = -1;
         do
         {
-            FindPotentialEdge(*matrixGraph, fromNode, toNode);
+            FindPotentialEdge(matrixGraph, fromNode, toNode);
         }
-        while (EdgeExists(*matrixGraph, fromNode, toNode));
-        matrixGraph->AddEdge(i, fromNode, toNode, RandomGenerator::random(1, matrixGraph->nodeCount));
+        while (EdgeExists(matrixGraph, fromNode, toNode));
+        matrixGraph.AddEdge(i, fromNode, toNode, RandomGenerator::random(1, matrixGraph.nodeCount));
     }
 }
 
@@ -81,17 +81,17 @@ ListGraph GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
     return *listGraph;
 }
 
-void GraphGenerator::GenerateSpanningTree(const MatrixGraph* matrixGraph)
+void GraphGenerator::GenerateSpanningTree(const MatrixGraph& matrixGraph)
 {
-    for (int i = 0; i < matrixGraph->nodeCount; i++)
+    for (int i = 0; i < matrixGraph.nodeCount; i++)
     {
-        if (i == matrixGraph->nodeCount - 1)
+        if (i == matrixGraph.nodeCount - 1)
         {
-            matrixGraph->AddEdge(i, i, 0, RandomGenerator::random(1, matrixGraph->nodeCount));
+            matrixGraph.AddEdge(i, i, 0, RandomGenerator::random(1, matrixGraph.nodeCount));
         }
         else
         {
-            matrixGraph->AddEdge(i, i, i + 1, RandomGenerator::random(1, matrixGraph->nodeCount));
+            matrixGraph.AddEdge(i, i, i + 1, RandomGenerator::random(1, matrixGraph.nodeCount));
         }
     }
 }
