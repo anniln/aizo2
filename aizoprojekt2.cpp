@@ -1,10 +1,14 @@
 #include <iostream>
 
+#include "testers/BellmanFordAlgorithmOnDirectedListGraph.h"
+#include "testers/BellmanFordAlgorithmOnDirectedMatrixGraph.h"
 #include "testers/DijkstryAlgorithmOnDirectedListGraph.h"
+#include "testers/DijkstryAlgorithmOnDirectedMatrixGraph.h"
 #include "testers/KluskalAlgorithmOnUndirectedGraphTester.h"
 #include "testers/KruskalAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedListGraphTester.h"
+
 #include "utils/GraphGenerator.h"
 
 using namespace std;
@@ -52,10 +56,20 @@ template <typename T> T* FreeGraph(T* graph)
 
 int main(int argc, char* argv[])
 {
-    ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 10, 0.75);
+    //ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 10, 0.75);
+    //cout << graph->ToString();
+    //DijkstryAlgorithmOnDirectedListGraph tester;
+    //tester.TestGraphAlgorithm(*graph, 0, 7);
+    //BellmanFordAlgorithmOnDirectedListGraph tester2;
+    //tester2.TestGraphAlgorithm(*graph, 0, 7);
+    //delete graph;
+
+    MatrixGraph* graph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Directed,11, 0.5);
     cout << graph->ToString();
-    DijkstryAlgorithmOnDirectedListGraph tester;
-    tester.TestGraphAlgorithm(*graph, 0, 7);
+    // DijkstryAlgorithmOnDirectedMatrixGraph tester;
+    // tester.TestGraphAlgorithm(*graph,0,2);
+    BellmanFordAlgorithmOnDirectedMatrixGraph tester2;
+    tester2.TestGraphAlgorithm(*graph,0,5);
     delete graph;
     
     //ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
@@ -101,111 +115,109 @@ int main(int argc, char* argv[])
     // tester.TestGraphAlgorithm(*graph);
     // tester2.TestGraphAlgorithm(*graph);
     // delete graph;
-}
-
-int main2(int argc, char* argv[])
-{
-    try
-    {
-        string testOutput = R"(C:\Temp\SortTest)";
-        const auto fill = 0.05f;
-        const auto numberOfNodes = 5;
-        const auto testIterations = 100;
-
-        auto graphRepresentation = GraphRepresentation::List;
-        Problem problemToTest;
-
-        MatrixGraph* directedMatrixGraph = nullptr;
-        MatrixGraph* undirectedMatrixGraph = nullptr;
-        ListGraph* directedListGraph = nullptr;
-        ListGraph* undirectedListGraph = nullptr;
-
-
-        char optionNumber;
-        do
-        {
-            cout << "\n\n";
-            cout << "Author: Anna Ilnicka-Wandycz (CZW/N 11:15)\n";
-            cout << "Ctrl+C to exit program\n";
-
-            string representation;
-            cout << "Graph representation ('list' = ('d')efault or 'matrix'): ";
-            cin >> representation;
-            graphRepresentation = representation == "matrix" ? GraphRepresentation::Matrix : GraphRepresentation::List;
-
-            string problem;
-            cout << "Problem to test ('mst' = ('d')efault or 'sp' ShortestPath): ";
-            cin >> problem;
-            problemToTest = problem == "sp" ? Problem::ShortPath : Problem::Mst;
-
-            string option = "9";
-            do
-            {
-                cout << "\n\n";
-                cout << "Menu for graph: " << GetGraphRepresentationName(graphRepresentation) << ", problem: " <<
-                    GetProblemName(problemToTest) << "\n";
-                cout << "'0' - Read data from file \n";
-                cout << "'1' - Generate random graph \n";
-                cout << "'2' - Print graph \n";
-                cout << "'3' - Algorithm " << (problemToTest == Problem::Mst ? "Prim" : "Dijkstra") << "\n";
-                cout << "'4' - Algorithm " << (problemToTest == Problem::Mst ? "Kruskal" : "Ford-Bellmann") << "\n";
-                cout << "'9' - Back to previous menu" << "\n";
-                cin >> option;
-                
-                if (option == "0")
-                {
-                    
-                }
-                else if (option == "1")
-                    {
-                        if (graphRepresentation == GraphRepresentation::List)
-                        {
-                            directedListGraph = FreeGraph<ListGraph>(directedListGraph);
-                            undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
-                            undirectedListGraph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
-                        }
-                        else
-                        {
-                            directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
-                            undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
-                            undirectedMatrixGraph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
-                        }
-                    }
-                else if ( option == "2")
-                    {
-                        if (graphRepresentation == GraphRepresentation::List)
-                        {
-                            if (directedListGraph != nullptr)  cout << directedListGraph->ToString() << '\n';
-                            if (undirectedListGraph != nullptr)  cout << undirectedListGraph->ToString() << '\n';
-                        }
-                        else
-                        {
-                            if (directedMatrixGraph != nullptr)  cout << directedMatrixGraph->ToString() << '\n';
-                            if (undirectedMatrixGraph != nullptr)  cout << undirectedMatrixGraph->ToString() << '\n';
-                        }
-                    }
-                else if ( option == "3")
-                {
-                    
-                }
-                else if ( option == "4")
-                {
-                    
-                }
-            }
-            while (option != "9");
-            
-            directedListGraph = FreeGraph<ListGraph>(directedListGraph);
-            undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
-            directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
-            undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
-        }
-        while (true);
-    }
-    catch (const std::exception& e)
-    {
-        std::cout << "Caught exception: " << e.what() << '\n';
-    }
-
     return 0;
 }
+
+// int main2(int argc, char* argv[])
+// {
+//     try
+//     {
+//         string testOutput = R"(C:\Temp\SortTest)";
+//         const auto fill = 0.05f;
+//         const auto numberOfNodes = 5;
+//         const auto testIterations = 100;
+//
+//         auto graphRepresentation = GraphRepresentation::List;
+//         Problem problemToTest;
+//
+//         MatrixGraph* directedMatrixGraph = nullptr;
+//         MatrixGraph* undirectedMatrixGraph = nullptr;
+//         ListGraph* directedListGraph = nullptr;
+//         ListGraph* undirectedListGraph = nullptr;
+//         do
+//         {
+//             cout << "\n\n";
+//             cout << "Author: Anna Ilnicka-Wandycz (CZW/N 11:15)\n";
+//             cout << "Ctrl+C to exit program\n";
+//
+//             string representation;
+//             cout << "Graph representation ('list' = ('d')efault or 'matrix'): ";
+//             cin >> representation;
+//             graphRepresentation = representation == "matrix" ? GraphRepresentation::Matrix : GraphRepresentation::List;
+//
+//             string problem;
+//             cout << "Problem to test ('mst' = ('d')efault or 'sp' ShortestPath): ";
+//             cin >> problem;
+//             problemToTest = problem == "sp" ? Problem::ShortPath : Problem::Mst;
+//
+//             string option = "9";
+//             do
+//             {
+//                 cout << "\n\n";
+//                 cout << "Menu for graph: " << GetGraphRepresentationName(graphRepresentation) << ", problem: " <<
+//                     GetProblemName(problemToTest) << "\n";
+//                 cout << "'0' - Read data from file \n";
+//                 cout << "'1' - Generate random graph \n";
+//                 cout << "'2' - Print graph \n";
+//                 cout << "'3' - Algorithm " << (problemToTest == Problem::Mst ? "Prim" : "Dijkstra") << "\n";
+//                 cout << "'4' - Algorithm " << (problemToTest == Problem::Mst ? "Kruskal" : "Ford-Bellmann") << "\n";
+//                 cout << "'9' - Back to previous menu" << "\n";
+//                 cin >> option;
+//                 
+//                 if (option == "0")
+//                 {
+//                     
+//                 }
+//                 else if (option == "1")
+//                     {
+//                         if (graphRepresentation == GraphRepresentation::List)
+//                         {
+//                             directedListGraph = FreeGraph<ListGraph>(directedListGraph);
+//                             undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
+//                             undirectedListGraph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
+//                         }
+//                         else
+//                         {
+//                             directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
+//                             undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
+//                             undirectedMatrixGraph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Undirected, numberOfNodes, fill);
+//                         }
+//                     }
+//                 else if ( option == "2")
+//                     {
+//                         if (graphRepresentation == GraphRepresentation::List)
+//                         {
+//                             if (directedListGraph != nullptr)  cout << directedListGraph->ToString() << '\n';
+//                             if (undirectedListGraph != nullptr)  cout << undirectedListGraph->ToString() << '\n';
+//                         }
+//                         else
+//                         {
+//                             if (directedMatrixGraph != nullptr)  cout << directedMatrixGraph->ToString() << '\n';
+//                             if (undirectedMatrixGraph != nullptr)  cout << undirectedMatrixGraph->ToString() << '\n';
+//                         }
+//                     }
+//                 else if ( option == "3")
+//                 {
+//                     
+//                 }
+//                 else if ( option == "4")
+//                 {
+//                     
+//                 }
+//             }
+//             while (option != "9");
+//             
+//             directedListGraph = FreeGraph<ListGraph>(directedListGraph);
+//             undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
+//             directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
+//             undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
+//         }
+//         while (true);
+//     }
+//     catch (const std::exception& e)
+//     {
+//         std::cout << "Caught exception: " << e.what() << '\n';
+//     }
+//
+//     return 0;
+// }

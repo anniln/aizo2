@@ -1,4 +1,6 @@
-﻿#include "GraphGenerator.h"
+﻿#include <chrono>
+
+#include "GraphGenerator.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -8,7 +10,7 @@
 
 MatrixGraph GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
 {
-    MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.edgeCount / 2);
+    MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.edgeCount / 2, listGraph.graphType);
     int edgeIndex = 0;
     for (int i = 0; i < listGraph.nodeCount; ++i)
     {
@@ -29,12 +31,12 @@ void GraphGenerator::GenerateSpanningTree(ListGraph& listGraph)
     {
         listGraph.AddAdjacency(i-1, i, RandomGenerator::random(1, listGraph.nodeCount));
     }
-    listGraph.AddAdjacency(listGraph.nodeCount-1, 0, RandomGenerator::random(1, listGraph.nodeCount));
+    listGraph.AddAdjacency(listGraph.nodeCount, 0, RandomGenerator::random(1, listGraph.nodeCount));
 }
 
 int GraphGenerator::CalculateNumberOfEdges(int nodeCount, float fill)
 {
-    return static_cast<int>(((nodeCount - 1) * nodeCount / 2.0) * fill);
+    return static_cast<int>(((nodeCount - 1) * nodeCount / 2.0) * fill + (nodeCount % 2 == 0 ? 0 : 1));
 }
 
 void GraphGenerator::FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill)

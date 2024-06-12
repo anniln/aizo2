@@ -15,4 +15,6 @@ struct MatrixGraph
     ~MatrixGraph();
     void AddEdge(int edge, int node1, int node2, unsigned int value) const;
     std::string ToString() const;
+    int GetToNode(int edge) const; 
+    int GetFromNode(int edge) const; 
 };

@@ -7,7 +7,7 @@ class GraphGenerator
 public:
     static auto GenerateListGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> ListGraph*;
     static auto GenerateMatrixGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> MatrixGraph*;
-    static void FindPotentialEdge(MatrixGraph& matrixGraph, int& fromNode, int& toNode);
+    static void FindPotentialEdge(const MatrixGraph& matrixGraph, int& fromNode, int& toNode);
 
     static auto ListGraphToMatrixGraph(const ListGraph& listGraph) -> MatrixGraph;
     static auto MatrixGraphToListGraph(const MatrixGraph& matrixGraph) -> ListGraph;
@@ -18,7 +18,7 @@ private:
     static void GenerateSpanningTree(ListGraph& listGraph);
     static void FillRandomSpanningTreeAdjacency(ListGraph& listGraph, int numberOfEdgesToFill);
     
-    static void GenerateSpanningTree(MatrixGraph& matrixGraph);
+    static void GenerateSpanningTree(const MatrixGraph* matrixGraph);
+    static void FillRandomSpanningTreeAdjacency(const MatrixGraph* matrixGraph);
     static bool EdgeExists(const MatrixGraph& matrixGraph, int fromNode, int toNode);
-    static void FillRandomSpanningTreeAdjacency(MatrixGraph& matrixGraph);
 };

@@ -47,3 +47,27 @@ std::string MatrixGraph::ToString() const
     oss << ']' << '\n';
     return oss.str();
 }
+
+int MatrixGraph::GetToNode(int edge) const
+{
+    for (int i = 0; i < nodeCount; i++)
+    {
+        if (values[i][edge] < 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int MatrixGraph::GetFromNode(int edge) const
+{
+    for (int i = 0; i < nodeCount; i++)
+    {
+        if (values[i][edge] > 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
