@@ -74,16 +74,15 @@ void Simulation::Execute()
                     const ListGraph* listGraphUndirected = GraphGenerator::GenerateListGraphRepresentation(Undirected, nodeCount, fill);
                     primAlgorithmOnUndirectedListGraphTesterTime += ExecuteAlgorithmOnGraph<ListGraph>(file, primAlgorithmOnUndirectedListGraphTester, "PrimAlgorithmOnUndirectedListGraphTester", *listGraphUndirected, fill, nodeCount, i);
                     kruskalAlgorithmOnUndirectedGraphTesterTime += ExecuteAlgorithmOnGraph<ListGraph>(file, kruskalAlgorithmOnUndirectedGraphTester, "KruskalAlgorithmOnUndirectedGraphTester", *listGraphUndirected, fill, nodeCount, i);
-
+                    
                     const MatrixGraph* matrixGraphUndirected = GraphGenerator::ListGraphToMatrixGraph(*listGraphUndirected);
                     primAlgorithmOnUndirectedMatrixGraphTesterTime += ExecuteAlgorithmOnGraph<MatrixGraph>(file, primAlgorithmOnUndirectedMatrixGraphTester, "PrimAlgorithmOnUndirectedMatrixGraphTester", *matrixGraphUndirected, fill, nodeCount, i);
                     kruskalAlgorithmOnUndirectedMatrixGraphTesterTime += ExecuteAlgorithmOnGraph<MatrixGraph>(file, kruskalAlgorithmOnUndirectedMatrixGraphTester, "KruskalAlgorithmOnUndirectedMatrixGraphTester", *matrixGraphUndirected, fill, nodeCount, i);
-
+                    
                     delete listGraphUndirected;
                     delete matrixGraphUndirected;
 
                     const ListGraph* listGraphDirected = GraphGenerator::GenerateListGraphRepresentation(Directed, nodeCount, fill);
-                    
                     dijkstryAlgorithmOnDirectedListGraphTesterTime += ExecuteAlgorithmOnGraph<ListGraph>(file, dijkstryAlgorithmOnDirectedListGraphTester, "DijkstryAlgorithmOnDirectedListGraph", *listGraphDirected, fill, nodeCount, i, startNode, endNode);
                     bellmanFordAlgorithmOnDirectedListGraphTesterTime += ExecuteAlgorithmOnGraph<ListGraph>(file, bellmanFordAlgorithmOnDirectedListGraphTester, "bellmanFordAlgorithmOnDirectedListGraphTester", *listGraphDirected, fill, nodeCount, i, startNode, endNode);
 

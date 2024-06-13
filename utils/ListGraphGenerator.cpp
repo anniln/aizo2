@@ -31,7 +31,7 @@ void GraphGenerator::GenerateSpanningTree(ListGraph& listGraph)
     {
         listGraph.AddAdjacency(i-1, i, RandomGenerator::random(1, listGraph.nodeCount));
     }
-    listGraph.AddAdjacency(listGraph.nodeCount, 0, RandomGenerator::random(1, listGraph.nodeCount));
+    listGraph.AddAdjacency(listGraph.nodeCount-1, 0, RandomGenerator::random(1, listGraph.nodeCount));
 }
 
 int GraphGenerator::CalculateNumberOfEdges(int nodeCount, float fill)
