@@ -17,12 +17,12 @@
 
 using namespace std;
 
-const float fills[2] = {
-    0.75, 0.99
+const float fills[1] = {
+    0.99
 };
 
-const int nodeCounts[7] = {
-    8, 16, 32, 64, 128, 256, 512
+const int nodeCounts[6] = {
+    8, 16, 32, 64, 128, 256 //, 512
 };
 
 void Simulation::Execute()
@@ -57,17 +57,17 @@ void Simulation::Execute()
             {
                 const int startNode = 0;
                 const int endNode = nodeCount / 2;
-                long long primAlgorithmOnUndirectedListGraphTesterTime = 0;
-                long long kruskalAlgorithmOnUndirectedGraphTesterTime = 0;
+                double primAlgorithmOnUndirectedListGraphTesterTime = 0;
+                double kruskalAlgorithmOnUndirectedGraphTesterTime = 0;
 
-                long long kruskalAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
-                long long primAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
+                double kruskalAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
+                double primAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
 
-                long long dijkstryAlgorithmOnDirectedListGraphTesterTime = 0;
-                long long bellmanFordAlgorithmOnDirectedListGraphTesterTime = 0;
+                double dijkstryAlgorithmOnDirectedListGraphTesterTime = 0;
+                double bellmanFordAlgorithmOnDirectedListGraphTesterTime = 0;
 
-                long long dijkstryAlgorithmOnDirectedMatrixGraphTime = 0;
-                long long bellmanFordAlgorithmOnDirectedMatrixGraphTime = 0;
+                double dijkstryAlgorithmOnDirectedMatrixGraphTime = 0;
+                double bellmanFordAlgorithmOnDirectedMatrixGraphTime = 0;
 
                 for (int i = 0; i < iterations; i++)
                 {
@@ -93,14 +93,14 @@ void Simulation::Execute()
                     delete listGraphDirected;
                     delete matrixGraphDirected;
                 }
-                WriteAlgorithmAverageTime(file, "PrimAlgorithmOnUndirectedListGraphTester", fill, nodeCount, primAlgorithmOnUndirectedListGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "KruskalAlgorithmOnUndirectedGraphTester", fill, nodeCount, kruskalAlgorithmOnUndirectedGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "PrimAlgorithmOnUndirectedMatrixGraphTester", fill, nodeCount, primAlgorithmOnUndirectedMatrixGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "KruskalAlgorithmOnUndirectedMatrixGraphTester", fill, nodeCount, kruskalAlgorithmOnUndirectedMatrixGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "DijkstryAlgorithmOnDirectedListGraph", fill, nodeCount, dijkstryAlgorithmOnDirectedListGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "bellmanFordAlgorithmOnDirectedListGraphTester", fill, nodeCount, bellmanFordAlgorithmOnDirectedListGraphTesterTime);
-                WriteAlgorithmAverageTime(file, "DijkstryAlgorithmOnDirectedMatrixGraphTester", fill, nodeCount, dijkstryAlgorithmOnDirectedMatrixGraphTime);
-                WriteAlgorithmAverageTime(file, "BellmanFordAlgorithmOnDirectedMatrixGraphTester", fill, nodeCount, bellmanFordAlgorithmOnDirectedMatrixGraphTime);
+                WriteAlgorithmAverageTime(file, "PrimAlgorithmOnUndirectedListGraphTester", fill, nodeCount, primAlgorithmOnUndirectedListGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "KruskalAlgorithmOnUndirectedGraphTester", fill, nodeCount, kruskalAlgorithmOnUndirectedGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "PrimAlgorithmOnUndirectedMatrixGraphTester", fill, nodeCount, primAlgorithmOnUndirectedMatrixGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "KruskalAlgorithmOnUndirectedMatrixGraphTester", fill, nodeCount, kruskalAlgorithmOnUndirectedMatrixGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "DijkstryAlgorithmOnDirectedListGraph", fill, nodeCount, dijkstryAlgorithmOnDirectedListGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "bellmanFordAlgorithmOnDirectedListGraphTester", fill, nodeCount, bellmanFordAlgorithmOnDirectedListGraphTesterTime / iterations);
+                WriteAlgorithmAverageTime(file, "DijkstryAlgorithmOnDirectedMatrixGraphTester", fill, nodeCount, dijkstryAlgorithmOnDirectedMatrixGraphTime / iterations);
+                WriteAlgorithmAverageTime(file, "BellmanFordAlgorithmOnDirectedMatrixGraphTester", fill, nodeCount, bellmanFordAlgorithmOnDirectedMatrixGraphTime / iterations);
                 
             }
         }
@@ -121,7 +121,8 @@ void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithm
     line.append(algorithmName)
     .append(";").append(to_string(fill))
     .append(";").append(to_string(nodeCount))
-    .append(";-1")
+    .append(";-1") // Iteration
+    .append(";-1") // IterationTime
     .append(";").append(TimeUtils::FormatMicrosecondToMilliseconds(avarageTime))
     .append(";");
     
