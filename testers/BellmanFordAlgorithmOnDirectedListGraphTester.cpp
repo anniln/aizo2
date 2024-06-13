@@ -4,7 +4,7 @@ BellmanFordAlgorithmOnDirectedListGraphTester::~BellmanFordAlgorithmOnDirectedLi
 {
 }
 
-void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode)
+void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const
 {
     int nodeCount = graph.nodeCount;
     int* distance = new int[nodeCount];
