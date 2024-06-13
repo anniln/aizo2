@@ -9,8 +9,8 @@ public:
     static auto GenerateMatrixGraphRepresentation(GraphType graphType, int numberOfNodes, float fill) -> MatrixGraph*;
     static void FindPotentialEdge(const MatrixGraph& matrixGraph, int& fromNode, int& toNode);
 
-    static auto ListGraphToMatrixGraph(const ListGraph& listGraph) -> MatrixGraph;
-    static auto MatrixGraphToListGraph(const MatrixGraph& matrixGraph) -> ListGraph;
+    static auto ListGraphToMatrixGraph(const ListGraph& listGraph) -> MatrixGraph*;
+    static auto MatrixGraphToListGraph(const MatrixGraph& matrixGraph) -> ListGraph*;
 
 private:
     static int CalculateNumberOfEdges(int nodeCount, float fill);

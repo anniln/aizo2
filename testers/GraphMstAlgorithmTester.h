@@ -3,9 +3,9 @@
 template <typename T>
 class GraphMstAlgorithmTester
 {
-protected:
+public:
+    GraphMstAlgorithmTester() = default;
     ~GraphMstAlgorithmTester() = default;
 
-public:
-    virtual void TestGraphAlgorithm(const T& graph) = 0;
+    virtual void TestGraphAlgorithm(const T& graph) const = 0;
 };

@@ -155,42 +155,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aizoprojekt2.cpp" />
-    <ClCompile Include="models\Edge.cpp" />
-    <ClCompile Include="models\GraphType.cpp" />
-    <ClCompile Include="models\ListGraph.cpp" />
-    <ClCompile Include="models\MatrixGraph.cpp" />
-    <ClCompile Include="testers\BellmanFordAlgorithmOnDirectedListGraph.cpp" />
-    <ClCompile Include="testers\BellmanFordAlgorithmOnDirectedMatrixGraph.cpp" />
-    <ClCompile Include="testers\DijkstryAlgorithmOnDirectedListGraph.cpp" />
-    <ClCompile Include="testers\DijkstryAlgorithmOnDirectedMatrixGraph.cpp" />
-    <ClCompile Include="testers\GraphMstAlgorithmTester.cpp" />
-    <ClCompile Include="testers\KluskalAlgorithmOnUndirectedGraphTester.cpp" />
-    <ClCompile Include="testers\KruskalAlgorithmOnUndirectedMatrixGraphTester.cpp" />
-    <ClCompile Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.cpp" />
-    <ClCompile Include="testers\PrimAlgorithmOnUndirectedListGraphTester.cpp" />
-    <ClCompile Include="utils\ArrayUtils.cpp" />
-    <ClCompile Include="utils\ListGraphGenerator.cpp" />
-    <ClCompile Include="utils\MatrixGraphGenerator.cpp" />
-    <ClCompile Include="utils\RandomGenerator.cpp" />
+    <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="models\Edge.h" />
-    <ClInclude Include="models\GraphType.h" />
-    <ClInclude Include="models\ListGraph.h" />
-    <ClInclude Include="models\MatrixGraph.h" />
-    <ClInclude Include="testers\BellmanFordAlgorithmOnDirectedListGraph.h" />
-    <ClInclude Include="testers\BellmanFordAlgorithmOnDirectedMatrixGraph.h" />
-    <ClInclude Include="testers\DijkstryAlgorithmOnDirectedListGraph.h" />
-    <ClInclude Include="testers\DijkstryAlgorithmOnDirectedMatrixGraph.h" />
-    <ClInclude Include="testers\GraphMstAlgorithmTester.h" />
-    <ClInclude Include="testers\GraphShortPathAlgorithmTester.h" />
-    <ClInclude Include="testers\KluskalAlgorithmOnUndirectedGraphTester.h" />
-    <ClInclude Include="testers\KruskalAlgorithmOnUndirectedMatrixGraphTester.h" />
-    <ClInclude Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.h" />
-    <ClInclude Include="testers\PrimAlgorithmOnUndirectedListGraphTester.h" />
-    <ClInclude Include="utils\ArrayUtils.h" />
-    <ClInclude Include="utils\GraphGenerator.h" />
-    <ClInclude Include="utils\RandomGenerator.h" />
+    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="utils\NumberUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

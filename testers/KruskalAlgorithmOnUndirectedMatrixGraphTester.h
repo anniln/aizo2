@@ -1,17 +1,17 @@
 ﻿#pragma once
 #include <iostream>
 #include "GraphMstAlgorithmTester.h"
-#include "KluskalAlgorithmOnUndirectedGraphTester.h"
+#include "KruskalAlgorithmOnUndirectedListGraphTester.h"
 #include "../models/MatrixGraph.h"
 
 using namespace std;
 
-class KruskalAlgorithmOnMatrixGraphTester : public GraphMstAlgorithmTester<MatrixGraph>
+class KruskalAlgorithmOnUndirectedMatrixGraphTester : public GraphMstAlgorithmTester<MatrixGraph>
 {
 public:
-    virtual ~KruskalAlgorithmOnMatrixGraphTester() = default;
+    virtual ~KruskalAlgorithmOnUndirectedMatrixGraphTester() = default;
 
-    void TestGraphAlgorithm(const MatrixGraph& graph) override
+    void TestGraphAlgorithm(const MatrixGraph& graph) const override
     {
         int edgeCount = 0;
         Edge* edges = new Edge[graph.edgeCount];
@@ -76,7 +76,7 @@ public:
     }
 
 private:
-    void SortEdges(Edge* edges, int count)
+    void SortEdges(Edge* edges, int count) const
     {
         for (int i = 0; i < count - 1; ++i)
         {
@@ -90,7 +90,7 @@ private:
         }
     }
 
-    void Swap(Edge& a, Edge& b)
+    void Swap(Edge& a, Edge& b) const
     {
         Edge temp = a;
         a = b;

@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "testers/BellmanFordAlgorithmOnDirectedListGraph.h"
+#include "Simulation.h"
+#include "testers/BellmanFordAlgorithmOnDirectedListGraphTester.h"
 #include "testers/BellmanFordAlgorithmOnDirectedMatrixGraph.h"
 #include "testers/DijkstryAlgorithmOnDirectedListGraph.h"
 #include "testers/DijkstryAlgorithmOnDirectedMatrixGraph.h"
-#include "testers/KluskalAlgorithmOnUndirectedGraphTester.h"
+#include "testers/KruskalAlgorithmOnUndirectedListGraphTester.h"
 #include "testers/KruskalAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedMatrixGraphTester.h"
 #include "testers/PrimAlgorithmOnUndirectedListGraphTester.h"
@@ -56,6 +57,8 @@ template <typename T> T* FreeGraph(T* graph)
 
 int main(int argc, char* argv[])
 {
+    Simulation simulation;
+    simulation.Execute();
     //ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(GraphType::Directed, 10, 0.75);
     //cout << graph->ToString();
     //DijkstryAlgorithmOnDirectedListGraph tester;
@@ -64,13 +67,13 @@ int main(int argc, char* argv[])
     //tester2.TestGraphAlgorithm(*graph, 0, 7);
     //delete graph;
 
-    MatrixGraph* graph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Directed,11, 0.5);
-    cout << graph->ToString();
-    // DijkstryAlgorithmOnDirectedMatrixGraph tester;
-    // tester.TestGraphAlgorithm(*graph,0,2);
-    BellmanFordAlgorithmOnDirectedMatrixGraph tester2;
-    tester2.TestGraphAlgorithm(*graph,0,5);
-    delete graph;
+    // MatrixGraph* graph = GraphGenerator::GenerateMatrixGraphRepresentation(GraphType::Directed,11, 0.5);
+    // cout << graph->ToString();
+    // // DijkstryAlgorithmOnDirectedMatrixGraph tester;
+    // // tester.TestGraphAlgorithm(*graph,0,2);
+    // BellmanFordAlgorithmOnDirectedMatrixGraph tester2;
+    // tester2.TestGraphAlgorithm(*graph,0,5);
+    // delete graph;
     
     //ListGraph* graph = GraphGenerator::GenerateListGraphRepresentation(5, 0.5);
     //cout << graph->ToString();

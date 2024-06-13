@@ -52,7 +52,7 @@ bool GraphGenerator::EdgeExists(const MatrixGraph& matrixGraph, int fromNode, in
 }
 
 
-ListGraph GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
+ListGraph* GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
 {
     ListGraph* listGraph = new ListGraph(matrixGraph.nodeCount);
     for (int i = 0; i < matrixGraph.edgeCount * 2; i++)
@@ -78,7 +78,7 @@ ListGraph GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
         }
         listGraph->AddAdjacency(fromNode, toNode, value);
     }
-    return *listGraph;
+    return listGraph;
 }
 
 void GraphGenerator::GenerateSpanningTree(const MatrixGraph& matrixGraph)

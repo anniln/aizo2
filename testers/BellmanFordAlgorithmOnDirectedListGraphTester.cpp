@@ -1,10 +1,10 @@
-﻿#include "BellmanFordAlgorithmOnDirectedListGraph.h"
+﻿#include "BellmanFordAlgorithmOnDirectedListGraphTester.h"
 
-BellmanFordAlgorithmOnDirectedListGraph::~BellmanFordAlgorithmOnDirectedListGraph()
+BellmanFordAlgorithmOnDirectedListGraphTester::~BellmanFordAlgorithmOnDirectedListGraphTester()
 {
 }
 
-void BellmanFordAlgorithmOnDirectedListGraph::TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode)
+void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode)
 {
     int nodeCount = graph.nodeCount;
     int* distance = new int[nodeCount];

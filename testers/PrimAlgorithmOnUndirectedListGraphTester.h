@@ -3,11 +3,11 @@
 #include "../models/ListGraph.h"
 #include <iostream>
 
-class PrimAlgorithmOnUndirectedListGraphTester final : GraphMstAlgorithmTester<ListGraph>
+class PrimAlgorithmOnUndirectedListGraphTester : public GraphMstAlgorithmTester<ListGraph>
 {
 public:
     // Funkcja pomocnicza do znalezienia minimalnego klucza
-    int MinKey(unsigned int key[], bool mstSet[], int V) {
+    int MinKey(unsigned int key[], bool mstSet[], int V) const {
         unsigned int min = UINT_MAX;
         int min_index = -1;
 
@@ -21,7 +21,7 @@ public:
     }
 
     //Algorytm Prima dla listy
-    void TestGraphAlgorithm(const ListGraph& graph) override {
+    void TestGraphAlgorithm(const ListGraph& graph) const override {
         // Wierzchołek startowy z góry założony
         int startNode = 0;
         // Tablica do przechowywania minimalnych wag krawędzi

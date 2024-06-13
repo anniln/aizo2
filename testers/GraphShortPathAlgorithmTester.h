@@ -3,9 +3,9 @@
 template <typename T>
 class GraphShortPathAlgorithmTester
 {
-protected:
+public:
+    GraphShortPathAlgorithmTester() = default;
     ~GraphShortPathAlgorithmTester() = default;
 
-public:
-    virtual void TestGraphAlgorithm(const T& graph, int startNode, int endNode) = 0;
+    virtual void TestGraphAlgorithm(const T& graph, int startNode, int endNode) const = 0;
 };

@@ -3,12 +3,12 @@
 #include <iostream>
 #include "GraphShortPathAlgorithmTester.h"
 
-class BellmanFordAlgorithmOnDirectedMatrixGraph : GraphShortPathAlgorithmTester<MatrixGraph>
+class BellmanFordAlgorithmOnDirectedMatrixGraphTester : public GraphShortPathAlgorithmTester<MatrixGraph>
 {
 public:
-    virtual ~BellmanFordAlgorithmOnDirectedMatrixGraph() = default;
+    virtual ~BellmanFordAlgorithmOnDirectedMatrixGraphTester() = default;
 
-    void TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode)
+    void TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode) const 
     {
         int nodeCount = graph.nodeCount;
         int edgeCount = graph.edgeCount;

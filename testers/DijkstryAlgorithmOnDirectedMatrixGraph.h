@@ -4,13 +4,13 @@
 
 #include "GraphShortPathAlgorithmTester.h"
 
-class DijkstryAlgorithmOnDirectedMatrixGraph : GraphShortPathAlgorithmTester<MatrixGraph>
+class DijkstryAlgorithmOnDirectedMatrixGraph : public GraphShortPathAlgorithmTester<MatrixGraph>
 {
 public:
     virtual ~DijkstryAlgorithmOnDirectedMatrixGraph() = default;
 
     // Funkcja implementująca algorytm Dijkstry
-    void TestGraphAlgorithm(const MatrixGraph &graph, int startNode, int endNode) override
+    void TestGraphAlgorithm(const MatrixGraph &graph, int startNode, int endNode) const override
     {
         int nodeCount = graph.nodeCount;
         unsigned int *distances = new unsigned int[nodeCount]; // Tablica przechowująca odległości od wierzchołka startowego
@@ -91,7 +91,7 @@ public:
 
 private:
     // Funkcja pomocnicza do znalezienia minimalnej wartości w tablicy
-    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount)
+    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const 
     {
         unsigned int min = UINT_MAX;
         int min_index = -1;

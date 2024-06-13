@@ -3,11 +3,11 @@
 #include "../models/MatrixGraph.h"
 #include <iostream>
 
-class PrimAlgorithmOnUndirectedMatrixGraphTester final : GraphMstAlgorithmTester<MatrixGraph>
+class PrimAlgorithmOnUndirectedMatrixGraphTester final : public GraphMstAlgorithmTester<MatrixGraph>
 {
 public:
     // Funkcja pomocnicza do znalezienia minimalnego klucza
-    int MinKey(unsigned int key[], bool mstSet[], int V)
+    int MinKey(unsigned int key[], bool mstSet[], int V) const
     {
         unsigned int min = UINT_MAX;
         int min_index = -1;
@@ -25,7 +25,7 @@ public:
     }
 
     // Algorytm Prima
-    void TestGraphAlgorithm(const MatrixGraph& graph) override {
+    void TestGraphAlgorithm(const MatrixGraph& graph) const override {
         unsigned int* key = new unsigned int[graph.nodeCount]; // tablica przechowująca minimalne wagi krawędzi
         int* parent = new int[graph.nodeCount]; // tablica przechowująca rodziców wierzchołków w MST
         bool* inMST = new bool[graph.nodeCount]; // tablica przechowująca informacje, czy wierzchołek jest w MST

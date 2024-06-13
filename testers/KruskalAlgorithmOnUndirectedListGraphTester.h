@@ -62,12 +62,12 @@ private:
     int* rank; // Tablica rang
 };
 
-class KluskalAlgorithmOnUndirectedGraphTester : GraphMstAlgorithmTester<ListGraph>
+class KruskalAlgorithmOnUndirectedListGraphTester : public GraphMstAlgorithmTester<ListGraph>
 {
 public:
-    virtual ~KluskalAlgorithmOnUndirectedGraphTester() = default;
+    virtual ~KruskalAlgorithmOnUndirectedListGraphTester() = default;
 
-    void TestGraphAlgorithm(const ListGraph& graph) override
+    void TestGraphAlgorithm(const ListGraph& graph) const override
     {
         Edge* edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
         edges = Edge::SortEdges(edges); // Sortowanie krawędzi według wagi

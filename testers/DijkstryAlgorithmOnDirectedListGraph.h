@@ -4,13 +4,13 @@
 
 #include "GraphShortPathAlgorithmTester.h"
 
-class DijkstryAlgorithmOnDirectedListGraph: GraphShortPathAlgorithmTester<ListGraph>
+class DijkstryAlgorithmOnDirectedListGraph: public GraphShortPathAlgorithmTester<ListGraph>
 {
 public:
     virtual ~DijkstryAlgorithmOnDirectedListGraph() = default;
     
     // Funkcja implementująca algorytm Dijkstry
-    void TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) override
+    void TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override
     {
         int nodeCount = graph.nodeCount;
         unsigned int* distances = new unsigned int[nodeCount];
@@ -85,7 +85,7 @@ public:
 
 private:
     // Funkcja pomocnicza do znalezienia minimalnej wartości w tablicy
-    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount)
+    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const 
     {
         unsigned int min = UINT_MAX;
         int min_index = -1;

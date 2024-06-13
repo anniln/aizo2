@@ -8,7 +8,7 @@
 #include "RandomGenerator.h"
 #include "../models/ListGraph.h"
 
-MatrixGraph GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
+MatrixGraph* GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
 {
     MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.edgeCount / 2, listGraph.graphType);
     int edgeIndex = 0;
@@ -22,7 +22,7 @@ MatrixGraph GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
             adjacency = adjacency->next;
         }
     }
-    return *matrixGraph;
+    return matrixGraph;
 }
 
 void GraphGenerator::GenerateSpanningTree(ListGraph& listGraph)
