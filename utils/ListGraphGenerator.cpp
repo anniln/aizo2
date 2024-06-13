@@ -10,16 +10,15 @@
 
 MatrixGraph* GraphGenerator::ListGraphToMatrixGraph(const ListGraph& listGraph)
 {
-    MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.edgeCount / 2, listGraph.graphType);
+    MatrixGraph* matrixGraph = new MatrixGraph(listGraph.nodeCount, listGraph.graphType == Undirected ? listGraph.edgeCount / 2 : listGraph.edgeCount, listGraph.graphType);
     int edgeIndex = 0;
     for (int i = 0; i < listGraph.nodeCount; ++i)
     {
-        Adjacency* adjacency = listGraph.nodes[i];
-        while (adjacency != nullptr)
+        auto adjs = listGraph.nodes.at(i);
+        for (auto adj : adjs)
         {
-            matrixGraph->AddEdge(edgeIndex, i, adjacency->adjacentTo, adjacency->value);
+            matrixGraph->AddEdge(edgeIndex, i, adj.adjacentTo, adj.value);
             edgeIndex++;
-            adjacency = adjacency->next;
         }
     }
     return matrixGraph;

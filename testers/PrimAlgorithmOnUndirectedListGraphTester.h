@@ -21,7 +21,7 @@ public:
     }
 
     //Algorytm Prima dla listy
-    void TestGraphAlgorithm(const ListGraph& graph) const override {
+    std::string TestGraphAlgorithm(const ListGraph& graph) const override {
         // Wierzchołek startowy z góry założony
         int startNode = 0;
         // Tablica do przechowywania minimalnych wag krawędzi
@@ -48,35 +48,38 @@ public:
             inMST[u] = true; // Dodaj wybrany wierzchołek do MST
 
             // Przejrzyj wszystkie sąsiadujące wierzchołki wybranego wierzchołka
-            Adjacency* adj = graph.nodes[u];
-            while (adj != nullptr) {
-                int v = adj->adjacentTo; // Wierzchołek sąsiadujący
-                unsigned int weight = adj->value; // Waga krawędzi
+            auto adjs = graph.nodes[u];
+            for (auto adj : adjs)
+            {
+                int v = adj.adjacentTo; // Wierzchołek sąsiadujący
+                unsigned int weight = adj.value; // Waga krawędzi
 
                 // Jeśli wierzchołek v nie jest jeszcze w MST i waga krawędzi u-v jest mniejsza niż obecny klucz v
                 if (!inMST[v] && weight < key[v]) {
                     key[v] = weight; // Zaktualizuj klucz dla v
                     parent[v] = u;   // Ustaw u jako rodzica v
                 }
-                adj = adj->next; // Przejdź do następnego sąsiada
             }
         }
 
         // Wyświetlanie MST
+        std::ostringstream oss;
         for (int i = 1; i < graph.nodeCount; ++i) {
             if (parent[i] != -1) {
-                std::cout << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << "\n";
+                oss << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << "\n";
                 totalCost += key[i]; // Dodawanie wagi krawędzi do całkowitego kosztu
             }
         }
 
         // Wyświetlanie całkowitego kosztu drzewa MST
-        std::cout << "Total cost of MST (Prim): " << totalCost << "\n\n";
+        oss << "Total cost of MST (Prim): " << totalCost << "\n\n";
         
         // Zwolnienie zaalokowanej pamięci
         delete[] key;
         delete[] parent;
         delete[] inMST;
+
+        return oss.str();
     }
     
 };

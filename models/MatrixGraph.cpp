@@ -2,33 +2,20 @@
 
 #include <iomanip>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
 MatrixGraph::MatrixGraph(int nodeCount, int edgeCount, GraphType graphType)
     : graphType(graphType), nodeCount(nodeCount), edgeCount(edgeCount), edgeMultiplier(graphType == Undirected ? 2 : 1)
 {
-    values = new int*[nodeCount]();
-    for (int i = 0; i < nodeCount; i++)
-    {
-        values[i] = new int[edgeCount * edgeMultiplier]();
-    }
+    values.resize(nodeCount, vector<int>(edgeCount * edgeMultiplier, 0));
 }
 
-MatrixGraph::~MatrixGraph()
+void MatrixGraph::AddEdge(const int edge, const int node1, const int node2, const unsigned int value)
 {
-    for (int i = 0; i < nodeCount; i++)
-    {
-        delete [] values[i];
-        values[i] = nullptr;
-    }
-    delete [] values;
-}
-
-void MatrixGraph::AddEdge(const int edge, const int node1, const int node2, const unsigned int value) const
-{
-    values[node1][edge] = value;
-    values[node2][edge] = graphType == Undirected ? value : (-1) * value;
+    values.at(node1).at(edge) = value;
+    values.at(node2).at(edge) = graphType == Undirected ? value : (-1) * value;
 }
 
 std::string MatrixGraph::ToString() const
@@ -39,7 +26,7 @@ std::string MatrixGraph::ToString() const
     {
         for (int j = 0; j < edgeCount * edgeMultiplier; j++)
         {
-            oss << setw(2) << values[i][j];
+            oss << setw(2) << values.at(i).at(j);
         }
 
         oss << '\n';
@@ -52,7 +39,7 @@ int MatrixGraph::GetToNode(int edge) const
 {
     for (int i = 0; i < nodeCount; i++)
     {
-        if (values[i][edge] < 0)
+        if (values.at(i).at(edge) < 0)
         {
             return i;
         }
@@ -64,7 +51,7 @@ int MatrixGraph::GetFromNode(int edge) const
 {
     for (int i = 0; i < nodeCount; i++)
     {
-        if (values[i][edge] > 0)
+        if (values.at(i).at(edge) > 0)
         {
             return i;
         }

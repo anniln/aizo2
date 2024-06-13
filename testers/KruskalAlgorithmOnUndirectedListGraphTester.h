@@ -11,21 +11,14 @@ using namespace std;
 class UnionFind
 {
 public:
-    UnionFind(int size) : parent(new int[size]), rank(new int[size])
+    UnionFind(int size) : parent(size), rank(size, 0)
     {
         for (int i = 0; i < size; ++i)
         {
             parent[i] = i; // Inicjalizacja rodzica jako samego siebie
-            rank[i] = 0; // Inicjalizacja rangi jako 0
         }
     }
 
-    ~UnionFind()
-    {
-        delete[] parent; // Zwalnianie tablicy rodziców
-        delete[] rank; // Zwalnianie tablicy rang
-    }
-    
     int Find(int p) // Znajdowanie reprezentanta zbioru z path compression
     {
         if (parent[p] != p)
@@ -58,8 +51,8 @@ public:
     }
 
 private:
-    int* parent; // Tablica rodziców
-    int* rank; // Tablica rang
+    vector<int> parent; // Wektor rodziców
+    vector<int> rank; // Wektor rang
 };
 
 class KruskalAlgorithmOnUndirectedListGraphTester : public GraphMstAlgorithmTester<ListGraph>
@@ -67,41 +60,52 @@ class KruskalAlgorithmOnUndirectedListGraphTester : public GraphMstAlgorithmTest
 public:
     virtual ~KruskalAlgorithmOnUndirectedListGraphTester() = default;
 
-    void TestGraphAlgorithm(const ListGraph& graph) const override
+    std::string TestGraphAlgorithm(const ListGraph& graph) const override
     {
-        Edge* edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
-        edges = Edge::SortEdges(edges); // Sortowanie krawędzi według wagi
+        vector<Edge> edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
+        BubbleSort(edges); // Sortowanie krawędzi według wagi
 
         UnionFind uf(graph.nodeCount); // Inicjalizacja struktury zbiorów rozłącznych
-        Edge* mst = nullptr; // Wskaźnik na początek listy MST
-        Edge* last = nullptr; // Wskaźnik na ostatnią krawędź w MST
-
+        vector<Edge> mst; // Wektor krawędzi MST
         unsigned int totalCost = 0; // Inicjalizacja sumy wag MST
 
-        while (edges != nullptr)
+        for (const auto& edge : edges)
         {
-            if (uf.Find(edges->fromNode) != uf.Find(edges->toNode))
+            if (uf.Find(edge.fromNode) != uf.Find(edge.toNode))
             {
-                uf.Union(edges->fromNode, edges->toNode); // Łączenie zbiorów
-                if (mst == nullptr)
-                {
-                    mst = edges; // Inicjalizacja listy MST
-                }
-                else
-                {
-                    last->next = edges; // Dodawanie krawędzi do MST
-                }
-                last = edges; // Aktualizacja wskaźnika na ostatnią krawędź w MST
-                totalCost += edges->value; // Dodawanie wagi krawędzi do sumy MST
+                uf.Union(edge.fromNode, edge.toNode); // Łączenie zbiorów
+                mst.push_back(edge); // Dodawanie krawędzi do MST
+                totalCost += edge.value; // Dodawanie wagi krawędzi do sumy MST
             }
-            edges = edges->next; // Przechodzenie do następnej krawędzi
         }
+        
+        std::ostringstream oss;
+        oss << Edge::ArrayToString(mst);
+        oss << "Total cost of MST (Kruskal): " << totalCost << "\n\n"; // Wypisywanie sumy wag MST
 
-        if (last != nullptr)
+        return oss.str();
+    }
+private:
+    void BubbleSort(vector<Edge>& edges) const
+    {
+        int n = edges.size();
+        for (int i = 0; i < n - 1; ++i)
         {
-            last->next = nullptr; // Zakończenie listy MST
+            for (int j = 0; j < n - i - 1; ++j)
+            {
+                if (edges[j].value > edges[j + 1].value)
+                {
+                    Swap(edges[j], edges[j + 1]);
+                }
+            }
         }
-        cout << Edge::ArrayToString(mst);
-        std::cout << "Total cost of MST (Kruskal): " << totalCost << "\n\n"; // Wypisywanie sumy wag MST
+    }
+
+    void Swap(Edge& a, Edge& b) const
+    {
+        Edge temp = a;
+        a = b;
+        b = temp;
     }
 };
+;

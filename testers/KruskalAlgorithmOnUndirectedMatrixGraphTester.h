@@ -11,10 +11,9 @@ class KruskalAlgorithmOnUndirectedMatrixGraphTester : public GraphMstAlgorithmTe
 public:
     virtual ~KruskalAlgorithmOnUndirectedMatrixGraphTester() = default;
 
-    void TestGraphAlgorithm(const MatrixGraph& graph) const override
+    std::string TestGraphAlgorithm(const MatrixGraph& graph) const override
     {
-        int edgeCount = 0;
-        Edge* edges = new Edge[graph.edgeCount];
+        vector<Edge> edges;
 
         for (int edge = 0; edge < graph.edgeCount; ++edge)
         {
@@ -24,12 +23,12 @@ public:
 
             for (int node = 0; node < graph.nodeCount; ++node)
             {
-                if (graph.values[node][edge] != 0)
+                if (graph.values.at(node).at(edge) != 0)
                 {
                     if (fromNode == -1)
                     {
                         fromNode = node;
-                        value = graph.values[node][edge];
+                        value = graph.values.at(node).at(edge);
                     }
                     else
                     {
@@ -41,59 +40,40 @@ public:
 
             if (fromNode != -1 && toNode != -1)
             {
-                edges[edgeCount++] = Edge(fromNode, toNode, value);
+                edges.emplace_back(fromNode, toNode, value);
             }
         }
 
         // Sortowanie krawędzi według wagi
-        SortEdges(edges, edgeCount);
+        sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
+            return a.value < b.value;
+        });
 
         UnionFind uf(graph.nodeCount);
-        Edge* mst = new Edge[graph.nodeCount - 1];
-        int mstEdgeCount = 0;
+        vector<Edge> mst;
         unsigned int totalCost = 0;
 
-        for (int i = 0; i < edgeCount; ++i)
+        for (const auto& edge : edges)
         {
-            if (uf.Find(edges[i].fromNode) != uf.Find(edges[i].toNode))
+            if (uf.Find(edge.fromNode) != uf.Find(edge.toNode))
             {
-                uf.Union(edges[i].fromNode, edges[i].toNode);
-                mst[mstEdgeCount++] = edges[i];
-                totalCost += edges[i].value;
+                uf.Union(edge.fromNode, edge.toNode);
+                mst.push_back(edge);
+                totalCost += edge.value;
             }
         }
-
+        
         // Wyświetlanie wyniku
-        cout << "Edges in the MST:\n";
-        for (int i = 0; i < mstEdgeCount; ++i)
+        std::ostringstream oss;
+        oss << "Edges in the MST:\n";
+        for (const auto& edge : mst)
         {
-            cout << "From: " << mst[i].fromNode << " To: " << mst[i].toNode << " Weight: " << mst[i].value << "\n";
+            oss << "From: " << edge.fromNode << " To: " << edge.toNode << " Weight: " << edge.value << "\n";
         }
-        cout << "Total cost of MST (Kruskal): " << totalCost << "\n\n";
+        oss << "Total cost of MST (Kruskal): " << totalCost << "\n\n";
 
-        delete[] edges;
-        delete[] mst;
+        return oss.str();
     }
 
 private:
-    void SortEdges(Edge* edges, int count) const
-    {
-        for (int i = 0; i < count - 1; ++i)
-        {
-            for (int j = 0; j < count - i - 1; ++j)
-            {
-                if (edges[j].value > edges[j + 1].value)
-                {
-                    Swap(edges[j], edges[j + 1]);
-                }
-            }
-        }
-    }
-
-    void Swap(Edge& a, Edge& b) const
-    {
-        Edge temp = a;
-        a = b;
-        b = temp;
-    }
 };

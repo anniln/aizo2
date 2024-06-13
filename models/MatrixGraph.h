@@ -2,6 +2,7 @@
 #include <string>
 
 #include "GraphType.h"
+#include <vector>
 
 struct MatrixGraph
 {
@@ -9,11 +10,10 @@ struct MatrixGraph
     int edgeMultiplier = 2;
     int nodeCount;
     int edgeCount;
-    int** values;
+    std::vector<std::vector<int>> values;
 
     MatrixGraph(int nodeCount, int edgeCount, GraphType graphType = Undirected);
-    ~MatrixGraph();
-    void AddEdge(int edge, int node1, int node2, unsigned int value) const;
+    void AddEdge(int edge, int node1, int node2, unsigned int value);
     std::string ToString() const;
     int GetToNode(int edge) const; 
     int GetFromNode(int edge) const; 

@@ -4,7 +4,8 @@ BellmanFordAlgorithmOnDirectedListGraphTester::~BellmanFordAlgorithmOnDirectedLi
 {
 }
 
-void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const
+std::string BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode,
+                                                                       int endNode) const
 {
     int nodeCount = graph.nodeCount;
     int* distance = new int[nodeCount];
@@ -23,47 +24,47 @@ void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const Lis
     {
         for (int u = 0; u < nodeCount; ++u)
         {
-            Adjacency* current = graph.nodes[u];
-            while (current)
+            auto adjs = graph.nodes[u];
+            for (auto adj : adjs)
             {
-                int v = current->adjacentTo;
-                unsigned int weight = current->value;
+                int v = adj.adjacentTo;
+                unsigned int weight = adj.value;
                 if (distance[u] != UINT_MAX &&
                     distance[u] + weight < distance[v])
                 {
                     distance[v] = distance[u] + weight;
                     predecessor[v] = u;
                 }
-                current = current->next;
             }
         }
     }
 
     // Sprawdzenie cyklu ujemnego
+    std::ostringstream oss;
     for (int u = 0; u < nodeCount; ++u)
     {
-        Adjacency* current = graph.nodes[u];
-        while (current)
+        auto adjs = graph.nodes[u];
+        for (auto adj : adjs)
         {
-            int v = current->adjacentTo;
-            unsigned int weight = current->value;
+            int v = adj.adjacentTo;
+            unsigned int weight = adj.value;
             if (distance[u] != UINT_MAX &&
                 distance[u] + weight < distance[v])
             {
-                std::cout << "Cykl ujemny wykryty" << "\n";
+                oss << "Cykl ujemny wykryty" << "\n";
                 delete[] distance;
                 delete[] predecessor;
-                return;
+                return oss.str();
             }
-            current = current->next;
         }
     }
 
     // Wyświetlanie najkrótszej ścieżki
-    std::cout << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distance[endNode] << "\n";
-        
+    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distance[
+        endNode] << "\n";
+
     // Konstruowanie ścieżki
-    std::cout << "Path: ";
+    oss << "Path: ";
     int current = endNode;
     int* path = new int[nodeCount]; // dynamiczna tablica do przechowywania ścieżki
     int pathLength = 0;
@@ -77,13 +78,13 @@ void BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const Lis
     // Drukowanie ścieżki w odpowiedniej kolejności
     for (int i = pathLength - 1; i >= 0; --i)
     {
-        std::cout << path[i] << " ";
+        oss << path[i] << " ";
     }
-    std::cout << "\n";
+    oss << "\n";
 
     // Sprzątanie
     delete[] distance;
     delete[] predecessor;
     delete[] path;
+    return oss.str();
 }
-

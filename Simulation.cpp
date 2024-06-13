@@ -17,18 +17,18 @@
 
 using namespace std;
 
-const float fills[3] = {
-    0.5, 0.75, 0.99
+const float fills[2] = {
+    0.75, 0.99
 };
 
 const int nodeCounts[7] = {
-    10, 30, 50, 70, 90, 110, 130
+    8, 16, 32, 64, 128, 256, 512
 };
 
 void Simulation::Execute()
 {
     string testOutput = R"(C:\Temp\GraphTest)";
-    auto iterations = 50;
+    auto iterations = 10;
 
     const BellmanFordAlgorithmOnDirectedListGraphTester bellmanFordAlgorithmOnDirectedListGraphTester;
     const BellmanFordAlgorithmOnDirectedMatrixGraphTester bellmanFordAlgorithmOnDirectedMatrixGraphTester;
@@ -39,8 +39,8 @@ void Simulation::Execute()
     const PrimAlgorithmOnUndirectedListGraphTester primAlgorithmOnUndirectedListGraphTester;
     const PrimAlgorithmOnUndirectedMatrixGraphTester primAlgorithmOnUndirectedMatrixGraphTester;
     
-    try
-    {
+    // try
+    // {
         std::cout << "Start simulation: Number of iterations: " << iterations << ", OutputDir=" << testOutput << "\n";
 
         // otwarcie pliku csv dla wyników: z nazwą Simulation + biezacy_czas
@@ -89,7 +89,7 @@ void Simulation::Execute()
                     const MatrixGraph* matrixGraphDirected = GraphGenerator::ListGraphToMatrixGraph(*listGraphDirected);
                     dijkstryAlgorithmOnDirectedMatrixGraphTime += ExecuteAlgorithmOnGraph<MatrixGraph>(file, dijkstryAlgorithmOnDirectedMatrixGraphTester, "DijkstryAlgorithmOnDirectedMatrixGraphTester", *matrixGraphDirected, fill, nodeCount, i, startNode, endNode);
                     bellmanFordAlgorithmOnDirectedMatrixGraphTime += ExecuteAlgorithmOnGraph<MatrixGraph>(file, bellmanFordAlgorithmOnDirectedMatrixGraphTester, "BellmanFordAlgorithmOnDirectedMatrixGraphTester", *matrixGraphDirected, fill, nodeCount, i, startNode, endNode);
-
+                    
                     delete listGraphDirected;
                     delete matrixGraphDirected;
                 }
@@ -106,12 +106,13 @@ void Simulation::Execute()
         }
         // zamknięcie pliku
         file.close();
-    }
-    catch
-    (std::exception& e)
-    {
-        cout << "Caught exception: " << e.what() << endl;
-    }
+    // }
+    // catch
+    // (std::exception& e)
+    // {
+    //     cout << "Caught exception: " << e.what() << endl;
+    //     throw e;
+    // }
 }
 void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithmName, float fill, int nodeCount, long long avarageTime)
 {
@@ -125,6 +126,7 @@ void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithm
     .append(";");
     
     cout << line << "\n" << "\n";
+    cout.flush();
     
     file << line << "\n";
     file.flush();

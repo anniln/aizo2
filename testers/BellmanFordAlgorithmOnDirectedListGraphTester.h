@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../models/ListGraph.h"
 #include <iostream>
+#include <string>
 #include "GraphShortPathAlgorithmTester.h"
 
 class BellmanFordAlgorithmOnDirectedListGraphTester : public GraphShortPathAlgorithmTester<ListGraph>
@@ -8,5 +9,5 @@ class BellmanFordAlgorithmOnDirectedListGraphTester : public GraphShortPathAlgor
 public:
     virtual ~BellmanFordAlgorithmOnDirectedListGraphTester();
 
-    void TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override;
+    std::string TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override;
 };

@@ -24,7 +24,7 @@ void GraphGenerator::FindPotentialEdge(const MatrixGraph& matrixGraph, int& from
     while (fromNode == toNode);
 }
 
-void GraphGenerator::FillRandomSpanningTreeAdjacency(const MatrixGraph& matrixGraph)
+void GraphGenerator::FillRandomSpanningTreeAdjacency(MatrixGraph& matrixGraph)
 {
     for (int i = matrixGraph.nodeCount; i < matrixGraph.edgeCount * matrixGraph.edgeMultiplier; i++) 
     {
@@ -81,7 +81,7 @@ ListGraph* GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph
     return listGraph;
 }
 
-void GraphGenerator::GenerateSpanningTree(const MatrixGraph& matrixGraph)
+void GraphGenerator::GenerateSpanningTree(MatrixGraph& matrixGraph)
 {
     for (int i = 0; i < matrixGraph.nodeCount; i++)
     {

@@ -8,33 +8,8 @@
 using namespace std;
 
 Adjacency::Adjacency(int adjacentTo, const unsigned value, Adjacency* next)
-    : adjacentTo(adjacentTo), value(value), next(next)
+    : adjacentTo(adjacentTo), value(value)
 {
-}
-
-Edge* ListGraph::GetEdges() const
-{
-    Edge* edges = nullptr;
-    Edge* last = nullptr;
-    for (int i = 0; i < nodeCount; ++i)
-    {
-        Adjacency* adj = nodes[i];
-        while (adj != nullptr)
-        {
-            Edge* newEdge = new Edge(i, adj->adjacentTo, adj->value);
-            if (edges == nullptr)
-            {
-                edges = newEdge;
-            }
-            else
-            {
-                last->next = newEdge;
-            }
-            last = newEdge;
-            adj = adj->next;
-        }
-    }
-    return edges;
 }
 
 string Adjacency::ToString() const
@@ -48,45 +23,22 @@ string Adjacency::ToString() const
 ListGraph::ListGraph(int nodeCount, GraphType graphType)
 : graphType(graphType), nodeCount(nodeCount), edgeCount(0)
 {
-    // TODO: problem with memory????
-    // nodes = new Adjacency*[nodeCount]();
-    Adjacency** nodes_ = new Adjacency*[nodeCount]();
-    nodes = nodes_;
-}
-
-ListGraph::~ListGraph()
-{
-    for (int i = 0; i < nodeCount; i++)
-    {
-        Adjacency* p = nodes[i];
-        while (p)
-        {
-            Adjacency* r = p;
-            p = p->next;
-            delete r;
-        }
-        nodes[i] = nullptr;
-    }
-
-    delete [] nodes;
-    nodes = nullptr;
+    nodes.resize(nodeCount);
 }
 
 bool ListGraph::AdjacencyExists(int fromNode, int toNode) const
 {
-    return ListGraph::AdjacencyExists(nodes[fromNode], toNode); 
+    return AdjacencyExists(nodes.at(fromNode), toNode); 
 }
 
-bool ListGraph::AdjacencyExists(Adjacency* nodeAdjacencies, int toNode)
+bool ListGraph::AdjacencyExists(const std::vector<Adjacency>& nodeAdjacencies,int toNode)
 {
-    Adjacency* it = nodeAdjacencies;
-    while (it != nullptr)
+    for (const auto& adjacency : nodeAdjacencies)
     {
-        if (it->adjacentTo == toNode)
+        if (adjacency.adjacentTo == toNode)
         {
             return true;
         }
-        it = it->next;
     }
     return false;
 }
@@ -94,15 +46,13 @@ bool ListGraph::AdjacencyExists(Adjacency* nodeAdjacencies, int toNode)
 string ListGraph::ToString() const
 {
     ostringstream oss;
-    oss << "GraphList[" << '\n';
-    for (int i = 0; i < nodeCount; i++)
+    oss << "ListGraph[" << '\n';
+    for (int i = 0; i < nodeCount; ++i)
     {
-        oss << "N[" << i << "] = ";
-        Adjacency* p = nodes[i];
-        while (p)
+        oss << i << ": ";
+        for (const auto& adjacency : nodes.at(i))
         {
-            oss << p->ToString() << " ";
-            p = p->next;
+            oss << adjacency.ToString() << " ";
         }
         oss << '\n';
     }
@@ -113,22 +63,36 @@ string ListGraph::ToString() const
 void ListGraph::AddAdjacency(const int fromNode, const int toNode, const unsigned int value)
 {
     // fromNode adjacency
-    if (!AdjacencyExists(nodes[fromNode], toNode))
+    if (!AdjacencyExists(nodes.at(fromNode), toNode))
     {
-        Adjacency* next = nodes[fromNode];
-        Adjacency* newAdjacentTo = new Adjacency(toNode, value, next);
-        nodes[fromNode] = newAdjacentTo;
+        nodes.at(fromNode).emplace_back(toNode, value);
         edgeCount += 1;
     }
     // toNode adjacency
     if (graphType == Undirected)
     {
-        if (!AdjacencyExists(nodes[toNode], fromNode))
+        if (!AdjacencyExists(nodes.at(toNode), fromNode))
         {
-            Adjacency* next = nodes[toNode];
-            Adjacency* newAdjacentTo = new Adjacency(fromNode, value, next);
-            nodes[toNode] = newAdjacentTo;
+            nodes.at(toNode).emplace_back(fromNode, value);
             edgeCount += 1;
         }
     }
 }
+
+std::vector<Edge> ListGraph::GetEdges() const
+{
+    std::vector<Edge> edges;
+    for (int fromNode = 0; fromNode < nodeCount; ++fromNode)
+    {
+        for (const auto& adjacency : nodes.at(fromNode))
+        {
+            // if (graphType == Undirected && fromNode > adjacency.adjacentTo)
+            // {
+            //     continue;  // Avoid adding duplicate edges in undirected graph
+            // }
+            edges.emplace_back(fromNode, adjacency.adjacentTo, adjacency.value);
+        }
+    }
+    return edges;
+}
+

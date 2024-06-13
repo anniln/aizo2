@@ -2,6 +2,7 @@
 #include "GraphMstAlgorithmTester.h"
 #include "../models/MatrixGraph.h"
 #include <iostream>
+#include <sstream>
 
 class PrimAlgorithmOnUndirectedMatrixGraphTester final : public GraphMstAlgorithmTester<MatrixGraph>
 {
@@ -25,7 +26,7 @@ public:
     }
 
     // Algorytm Prima
-    void TestGraphAlgorithm(const MatrixGraph& graph) const override {
+    std::string TestGraphAlgorithm(const MatrixGraph& graph) const override {
         unsigned int* key = new unsigned int[graph.nodeCount]; // tablica przechowująca minimalne wagi krawędzi
         int* parent = new int[graph.nodeCount]; // tablica przechowująca rodziców wierzchołków w MST
         bool* inMST = new bool[graph.nodeCount]; // tablica przechowująca informacje, czy wierzchołek jest w MST
@@ -78,23 +79,26 @@ public:
         }
 
         // Wyświetlanie MST i zliczanie całkowitego kosztu
+        std::ostringstream oss;
         for (int i = 1; i < graph.nodeCount; ++i)
         {
             // iteracja po wszystkich wierzchołkach, aby wyświetlić MST
             if (parent[i] != -1)
             {
                 // jeśli wierzchołek ma rodzica (jest w MST)
-                std::cout << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << "\n";
+                oss << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << "\n";
                 // wyświetlenie krawędzi i jej wagi
                 totalCost += key[i]; // dodanie wagi krawędzi do całkowitego kosztu
             }
         }
 
         // Wyświetlanie całkowitego kosztu drzewa MST
-        std::cout << "Total cost of MST (Prim): " << totalCost << "\n\n";
+        oss << "Total cost of MST (Prim): " << totalCost << "\n\n";
 
         delete[] key;
         delete[] parent;
         delete[] inMST;
+
+        return oss.str();
     }
 };

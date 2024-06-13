@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "../models/MatrixGraph.h"
 #include <iostream>
+#include <sstream>
+
 #include "GraphShortPathAlgorithmTester.h"
 
 class BellmanFordAlgorithmOnDirectedMatrixGraphTester : public GraphShortPathAlgorithmTester<MatrixGraph>
@@ -8,7 +10,7 @@ class BellmanFordAlgorithmOnDirectedMatrixGraphTester : public GraphShortPathAlg
 public:
     virtual ~BellmanFordAlgorithmOnDirectedMatrixGraphTester() = default;
 
-    void TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode) const 
+    std::string TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode) const 
     {
         int nodeCount = graph.nodeCount;
         int edgeCount = graph.edgeCount;
@@ -52,6 +54,7 @@ public:
         }
 
         // Sprawdzenie cyklu ujemnego (u nas nie będzie)
+        std::ostringstream oss;
         for (int e = 0; e < edgeCount; ++e)
         {
             int u = graph.GetFromNode(e);  
@@ -62,20 +65,23 @@ public:
                 if (distance[u] != UINT_MAX &&
                     distance[u] + weight < distance[v])
                 {
-                    std::cout << "Cykl ujemny wykryty" << "\n";
+                    oss << "Cykl ujemny wykryty" << "\n";
                     delete[] distance;
                     delete[] predecessor;
-                    return;
+                    return oss.str();
                 }
             }
         }
 
         // Wyświetlanie najkrótszej ścieżki
-        std::cout << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " <<
+        
+
+    // Wyświetlanie najkrótszej ścieżki
+    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " <<
             distance[endNode] << "\n";
 
         // Konstruowanie ścieżki
-        std::cout << "Path: ";
+        oss << "Path: ";
         int current = endNode;
         int* path =  new int[nodeCount](); // dynamiczna tablica do przechowywania ścieżki
         int pathLength = 0;
@@ -89,13 +95,15 @@ public:
         // Drukowanie ścieżki w odpowiedniej kolejności
         for (int i = pathLength - 1; i >= 0; --i)
         {
-            std::cout << path[i] << " ";
+            oss << path[i] << " ";
         }
-        std::cout << "\n";
+        oss << "\n";
 
         // Sprzątanie
         delete [] distance;
         delete [] predecessor;
         delete [] path;
+
+        return oss.str();
     }
 };

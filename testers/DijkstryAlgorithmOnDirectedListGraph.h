@@ -4,13 +4,13 @@
 
 #include "GraphShortPathAlgorithmTester.h"
 
-class DijkstryAlgorithmOnDirectedListGraph: public GraphShortPathAlgorithmTester<ListGraph>
+class DijkstryAlgorithmOnDirectedListGraph : public GraphShortPathAlgorithmTester<ListGraph>
 {
 public:
     virtual ~DijkstryAlgorithmOnDirectedListGraph() = default;
-    
+
     // Funkcja implementująca algorytm Dijkstry
-    void TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override
+    std::string TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override
     {
         int nodeCount = graph.nodeCount;
         unsigned int* distances = new unsigned int[nodeCount];
@@ -36,29 +36,30 @@ public:
 
             sptSet[u] = true;
 
-            Adjacency* neighbor = graph.nodes[u];
-            while (neighbor != nullptr)
+            auto adjs = graph.nodes[u];
+            for (auto adj : adjs)
             {
-                int v = neighbor->adjacentTo;
-                unsigned int weight = neighbor->value;
+                int v = adj.adjacentTo;
+                unsigned int weight = adj.value;
 
                 if (!sptSet[v] && distances[u] != UINT_MAX && distances[u] + weight < distances[v])
                 {
                     distances[v] = distances[u] + weight;
                     predecessors[v] = u;
                 }
-                neighbor = neighbor->next;
             }
         }
 
         // Wypisywanie wyników
-        std::cout << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[
-            endNode] << "\n";
+        std::ostringstream oss;
+        oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " <<
+            distances[
+                endNode] << "\n";
 
-        std::cout << "Path: ";
+        oss << "Path: ";
         if (distances[endNode] == UINT_MAX)
         {
-            std::cout << "No path\n";
+            oss << "No path\n";
         }
         else
         {
@@ -71,9 +72,9 @@ public:
             std::reverse(path, path + path_index);
             for (int i = 0; i < path_index; ++i)
             {
-                std::cout << path[i] << " ";
+                oss << path[i] << " ";
             }
-            std::cout << "\n";
+            oss << "\n";
             delete[] path;
         }
 
@@ -81,11 +82,13 @@ public:
         delete[] distances;
         delete[] predecessors;
         delete[] sptSet;
+
+        return oss.str();
     }
 
 private:
     // Funkcja pomocnicza do znalezienia minimalnej wartości w tablicy
-    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const 
+    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const
     {
         unsigned int min = UINT_MAX;
         int min_index = -1;
@@ -99,5 +102,4 @@ private:
 
         return min_index;
     }
-
 };

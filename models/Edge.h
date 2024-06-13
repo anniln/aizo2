@@ -1,6 +1,8 @@
 ﻿#pragma once
+#include <algorithm>
 #include <sstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -9,10 +11,9 @@ struct Edge
     int edge;
     int fromNode, toNode;
     unsigned int value;
-    Edge* next;
 
-    Edge() : edge(-1), fromNode(0), toNode(0), value(0), next(nullptr) {}
-    Edge(int f, int t, unsigned int v) : edge(-1), fromNode(f), toNode(t), value(v), next(nullptr) 
+    Edge() : edge(-1), fromNode(0), toNode(0), value(0) {}
+    Edge(int f, int t, unsigned int v) : edge(-1), fromNode(f), toNode(t), value(v) 
     {
     }
 
@@ -26,58 +27,28 @@ struct Edge
         ostringstream oss;
         oss << "Edge: " << fromNode << " - " << toNode << " Weight: " << value;
         return oss.str();
-
-        //ostringstream oss;
-        //oss << "E[";
-        //if (edge != -1)
-        //{
-        //    oss << "" << edge << ",";
-        //}
-        //oss << "N:" << fromNode << ",V:" << value << ",N:" << value;
-        //oss << "]";
-        //return oss.str();
     }
 
-    static string ArrayToString(const Edge* edges)
+    static string ArrayToString(const vector<Edge>& edges)
     {
         ostringstream oss;
-        const Edge* it = edges;
-        while (it != nullptr)
+        for (const auto& edge : edges)
         {
-            oss << it->ToString() << "\n";
-            it = it->next;
+            oss << edge.ToString() << "\n";
         }
         return oss.str();
     }
     
-    static void AddEdgeToList(Edge*& edges, Edge* edge)
+    static void AddEdgeToList(vector<Edge>& edges, const Edge& edge)
     {
-        if (edges == nullptr || edge->value < edges->value)
-        {
-            edge->next = edges;
-            edges = edge;
-        }
-        else
-        {
-            Edge* current = edges;
-            while (current->next != nullptr && current->next->value < edge->value)
-            {
-                current = current->next;
-            }
-            edge->next = current->next;
-            current->next = edge;
-        }
+        edges.push_back(edge);
+        sort(edges.begin(), edges.end());
     }
 
-    static Edge* SortEdges(Edge* edges)
+    static vector<Edge> SortEdges(vector<Edge>& edges)
     {
-        Edge* sortedEdges = nullptr;
-        while (edges != nullptr)
-        {
-            Edge* next = edges->next;
-            Edge::AddEdgeToList(sortedEdges, edges);
-            edges = next;
-        }
+        vector<Edge> sortedEdges = edges;
+        sort(sortedEdges.begin(), sortedEdges.end());
         return sortedEdges;
     }
 };

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../models/MatrixGraph.h"
 #include <iostream>
+#include <sstream>
 
 #include "GraphShortPathAlgorithmTester.h"
 
@@ -10,7 +11,7 @@ public:
     virtual ~DijkstryAlgorithmOnDirectedMatrixGraph() = default;
 
     // Funkcja implementująca algorytm Dijkstry
-    void TestGraphAlgorithm(const MatrixGraph &graph, int startNode, int endNode) const override
+    std::string TestGraphAlgorithm(const MatrixGraph &graph, int startNode, int endNode) const override
     {
         int nodeCount = graph.nodeCount;
         unsigned int *distances = new unsigned int[nodeCount]; // Tablica przechowująca odległości od wierzchołka startowego
@@ -58,12 +59,13 @@ public:
         }
 
         // Wypisywanie wyników
-        std::cout << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[endNode] << "\n";
+        std::ostringstream oss;
+        oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[endNode] << "\n";
 
-        std::cout << "Path: ";
+        oss << "Path: ";
         if (distances[endNode] == UINT_MAX)
         {
-            std::cout << "No path\n";
+            oss << "No path\n";
         }
         else
         {
@@ -72,14 +74,14 @@ public:
             for (int at = endNode; at != -1; at = predecessors[at]) // Iteracja od wierzchołka docelowego do początkowego
             {
                 path[path_index++] = at; // Dodawanie wierzchołków do ścieżki
-                //std::cout << "predecessor" << at << " " << predecessors[at] << "\n";
+                //oss << "predecessor" << at << " " << predecessors[at] << "\n";
             }
             std::reverse(path, path + path_index); // Odwrócenie tablicy, aby ścieżka była w kolejności od wierzchołka początkowego do docelowego
             for (int i = 0; i < path_index; ++i)
             {
-                std::cout << path[i] << " "; // Wypisanie ścieżki
+                oss << path[i] << " "; // Wypisanie ścieżki
             }
-            std::cout << "\n";
+            oss << "\n";
             delete[] path; // Zwolnienie pamięci zaalokowanej dla tablicy ścieżki
         }
 
@@ -87,6 +89,8 @@ public:
         delete[] distances;
         delete[] predecessors;
         delete[] sptSet;
+
+        return oss.str();
     }
 
 private:
