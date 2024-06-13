@@ -125,8 +125,8 @@ void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithm
     .append(";").append(TimeUtils::FormatMicrosecondToMilliseconds(avarageTime))
     .append(";");
     
-    cout << line << "\n" << "\n";
-    cout.flush();
+    // cout << line << "\n" << "\n";
+    // cout.flush();
     
     file << line << "\n";
     file.flush();
