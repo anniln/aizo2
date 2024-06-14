@@ -11,11 +11,11 @@ class KruskalAlgorithmOnUndirectedMatrixGraphTester : public GraphMstAlgorithmTe
 public:
     virtual ~KruskalAlgorithmOnUndirectedMatrixGraphTester() = default;
 
-    std::string TestGraphAlgorithm(const MatrixGraph& graph) const override
+    std::string TestGraphAlgorithm(const MatrixGraph& graph, bool outputResults) const override
     {
         vector<Edge> edges;
 
-        for (int edge = 0; edge < graph.edgeCount; ++edge)
+        for (int edge = 0; edge < graph.edgeCount*graph.edgeMultiplier; ++edge)
         {
             int fromNode = -1;
             int toNode = -1;
@@ -72,7 +72,7 @@ public:
         }
         oss << "Total cost of MST (Kruskal): " << totalCost << "\n\n";
 
-        return oss.str();
+        if (outputResults) cout<< oss.str(); return oss.str();
     }
 
 private:

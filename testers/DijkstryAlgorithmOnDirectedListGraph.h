@@ -10,7 +10,7 @@ public:
     virtual ~DijkstryAlgorithmOnDirectedListGraph() = default;
 
     // Funkcja implementująca algorytm Dijkstry
-    std::string TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode) const override
+    std::string TestGraphAlgorithm(const ListGraph& graph, int startNode, int endNode, bool outputResults) const override
     {
         int nodeCount = graph.nodeCount;
         unsigned int* distances = new unsigned int[nodeCount];
@@ -83,7 +83,7 @@ public:
         delete[] predecessors;
         delete[] sptSet;
 
-        return oss.str();
+        if (outputResults) cout<< oss.str(); return oss.str();
     }
 
 private:

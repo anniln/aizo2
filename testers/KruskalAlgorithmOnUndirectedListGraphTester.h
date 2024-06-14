@@ -60,10 +60,13 @@ class KruskalAlgorithmOnUndirectedListGraphTester : public GraphMstAlgorithmTest
 public:
     virtual ~KruskalAlgorithmOnUndirectedListGraphTester() = default;
 
-    std::string TestGraphAlgorithm(const ListGraph& graph) const override
+    std::string TestGraphAlgorithm(const ListGraph& graph, bool outputResults) const override
     {
         vector<Edge> edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
-        BubbleSort(edges); // Sortowanie krawędzi według wagi
+
+        std::sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
+                return a.value < b.value;
+            });        
 
         UnionFind uf(graph.nodeCount); // Inicjalizacja struktury zbiorów rozłącznych
         vector<Edge> mst; // Wektor krawędzi MST
@@ -83,29 +86,44 @@ public:
         oss << Edge::ArrayToString(mst);
         oss << "Total cost of MST (Kruskal): " << totalCost << "\n\n"; // Wypisywanie sumy wag MST
 
+        if (outputResults)
+            cout<< oss.str();
         return oss.str();
     }
 private:
-    void BubbleSort(vector<Edge>& edges) const
-    {
-        int n = edges.size();
-        for (int i = 0; i < n - 1; ++i)
-        {
-            for (int j = 0; j < n - i - 1; ++j)
-            {
-                if (edges[j].value > edges[j + 1].value)
-                {
-                    Swap(edges[j], edges[j + 1]);
-                }
-            }
+    static void HeapSort(std::vector<Edge>& vec) {
+        HeapCreateDown(vec);
+
+        for (int i = vec.size() - 1; i > 0; i--) {
+            std::swap(vec[0].value, vec[i].value);
+            HeapFixDown(vec, 0, i);
         }
     }
 
-    void Swap(Edge& a, Edge& b) const
-    {
-        Edge temp = a;
-        a = b;
-        b = temp;
+    static void HeapCreateDown(std::vector<Edge>& vec) {
+        for (int i = (vec.size() - 1 - 1) / 2; i >= 0; --i) {
+            HeapFixDown(vec, i, vec.size());
+        }
+    }
+
+    static void HeapFixDown(std::vector<Edge>& vec, int index, int size) {
+        while (index < size) {
+            int leftChild = 2 * index + 1;
+            int rightChild = 2 * index + 2;
+            int parent = index;
+
+            if (leftChild < size && vec[leftChild].value > vec[parent].value)
+                parent = leftChild;
+            if (rightChild < size && vec[rightChild].value > vec[parent].value)
+                parent = rightChild;
+
+            if (parent != index) {
+                std::swap(vec[index].value, vec[parent].value);
+                index = parent;
+            } else {
+                break;
+            }
+        }
     }
 };
 ;

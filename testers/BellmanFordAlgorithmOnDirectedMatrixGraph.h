@@ -10,7 +10,7 @@ class BellmanFordAlgorithmOnDirectedMatrixGraphTester : public GraphShortPathAlg
 public:
     virtual ~BellmanFordAlgorithmOnDirectedMatrixGraphTester() = default;
 
-    std::string TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode) const 
+    std::string TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode, bool outputResults) const 
     {
         int nodeCount = graph.nodeCount;
         int edgeCount = graph.edgeCount;
@@ -68,7 +68,7 @@ public:
                     oss << "Cykl ujemny wykryty" << "\n";
                     delete[] distance;
                     delete[] predecessor;
-                    return oss.str();
+                    if (outputResults) std::cout<< oss.str(); return oss.str();
                 }
             }
         }
@@ -104,6 +104,6 @@ public:
         delete [] predecessor;
         delete [] path;
 
-        return oss.str();
+        if (outputResults) std::cout<< oss.str(); return oss.str();
     }
 };

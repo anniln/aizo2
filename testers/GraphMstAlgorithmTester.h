@@ -8,5 +8,5 @@ public:
     GraphMstAlgorithmTester() = default;
     ~GraphMstAlgorithmTester() = default;
 
-    virtual std::string TestGraphAlgorithm(const T& graph) const = 0;
+    virtual std::string TestGraphAlgorithm(const T& graph, bool outputResults) const = 0;
 };

@@ -11,12 +11,15 @@ public:
     virtual ~DijkstryAlgorithmOnDirectedMatrixGraph() = default;
 
     // Funkcja implementująca algorytm Dijkstry
-    std::string TestGraphAlgorithm(const MatrixGraph &graph, int startNode, int endNode) const override
+    std::string TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode,
+                                   bool outputResults) const override
     {
         int nodeCount = graph.nodeCount;
-        unsigned int *distances = new unsigned int[nodeCount]; // Tablica przechowująca odległości od wierzchołka startowego
-        int *predecessors = new int[nodeCount]; // Tablica przechowująca poprzedników w najkrótszej ścieżce
-        bool *sptSet = new bool[nodeCount]; // Tablica przechowująca informacje o tym, czy wierzchołek został już odwiedzony
+        unsigned int* distances = new unsigned int[nodeCount];
+        // Tablica przechowująca odległości od wierzchołka startowego
+        int* predecessors = new int[nodeCount]; // Tablica przechowująca poprzedników w najkrótszej ścieżce
+        bool* sptSet = new bool[nodeCount];
+        // Tablica przechowująca informacje o tym, czy wierzchołek został już odwiedzony
 
         // Inicjalizacja
         for (int i = 0; i < nodeCount; i++)
@@ -46,7 +49,7 @@ public:
                     // int neighborIndex = (graph.values[u][v] > 0) ? 1 : 0; // Indeks wierzchołka sąsiedniego
                     // int neighbor = (graph.values[u][v] > 0) ? graph.values[u][v] - 1 : -graph.values[u][v] - 1; // Numer wierzchołka sąsiedniego
                     // unsigned int weight = abs(graph.values[neighbor][neighborIndex]); // Waga krawędzi
-                    
+
                     unsigned int weight = graph.values[u][v]; // Waga krawędzi
                     const int neighbor = graph.GetToNode(v);
                     if (!sptSet[neighbor] && distances[u] != UINT_MAX && distances[u] + weight < distances[neighbor])
@@ -60,7 +63,8 @@ public:
 
         // Wypisywanie wyników
         std::ostringstream oss;
-        oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[endNode] << "\n";
+        oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[
+            endNode] << "\n";
 
         oss << "Path: ";
         if (distances[endNode] == UINT_MAX)
@@ -69,14 +73,16 @@ public:
         }
         else
         {
-            int *path = new int[nodeCount]; // Tablica przechowująca wierzchołki w najkrótszej ścieżce
+            int* path = new int[nodeCount]; // Tablica przechowująca wierzchołki w najkrótszej ścieżce
             int path_index = 0;
-            for (int at = endNode; at != -1; at = predecessors[at]) // Iteracja od wierzchołka docelowego do początkowego
+            for (int at = endNode; at != -1; at = predecessors[at])
+            // Iteracja od wierzchołka docelowego do początkowego
             {
                 path[path_index++] = at; // Dodawanie wierzchołków do ścieżki
                 //oss << "predecessor" << at << " " << predecessors[at] << "\n";
             }
-            std::reverse(path, path + path_index); // Odwrócenie tablicy, aby ścieżka była w kolejności od wierzchołka początkowego do docelowego
+            std::reverse(path, path + path_index);
+            // Odwrócenie tablicy, aby ścieżka była w kolejności od wierzchołka początkowego do docelowego
             for (int i = 0; i < path_index; ++i)
             {
                 oss << path[i] << " "; // Wypisanie ścieżki
@@ -90,12 +96,15 @@ public:
         delete[] predecessors;
         delete[] sptSet;
 
+        if (outputResults)
+            std::cout << oss.str();
+
         return oss.str();
     }
 
 private:
     // Funkcja pomocnicza do znalezienia minimalnej wartości w tablicy
-    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const 
+    int MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const
     {
         unsigned int min = UINT_MAX;
         int min_index = -1;
@@ -109,5 +118,4 @@ private:
 
         return min_index; // Zwracamy indeks wierzchołka o najmniejszej odległości
     }
-  
 };

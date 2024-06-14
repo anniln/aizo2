@@ -26,7 +26,7 @@ public:
     }
 
     // Algorytm Prima
-    std::string TestGraphAlgorithm(const MatrixGraph& graph) const override {
+    std::string TestGraphAlgorithm(const MatrixGraph& graph, bool outputResults) const override {
         unsigned int* key = new unsigned int[graph.nodeCount]; // tablica przechowująca minimalne wagi krawędzi
         int* parent = new int[graph.nodeCount]; // tablica przechowująca rodziców wierzchołków w MST
         bool* inMST = new bool[graph.nodeCount]; // tablica przechowująca informacje, czy wierzchołek jest w MST
@@ -98,6 +98,9 @@ public:
         delete[] key;
         delete[] parent;
         delete[] inMST;
+
+        if (outputResults)
+            std::cout<< oss.str();
 
         return oss.str();
     }

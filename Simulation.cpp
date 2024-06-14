@@ -17,18 +17,38 @@
 
 using namespace std;
 
-const float fills[1] = {
-    0.99
+const float fills[3] = {
+    0.5f,
+    0.75f,
+    0.99f,
 };
 
-const int nodeCounts[6] = {
-    8, 16, 32, 64, 128, 256 //, 512
+const int nodeCounts[7] = {
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
 };
+
+long long DurationByNodeCount(int nodeCount, chrono::steady_clock::time_point end, chrono::steady_clock::time_point start)
+{
+    return nodeCount > 1000 ? std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() : std::chrono::duration_cast<std::chrono::microseconds>(end - start).count(); 
+}
+
+std::string FormatDurationByNodeCount(int nodeCount, long long duration)
+{
+    return nodeCount > 1000? std::to_string(duration) : TimeUtils::FormatMicrosecondToMilliseconds(duration);
+}
+
+
 
 void Simulation::Execute()
 {
     string testOutput = R"(C:\Temp\GraphTest)";
-    auto iterations = 10;
+    auto iterations = 30;
 
     const BellmanFordAlgorithmOnDirectedListGraphTester bellmanFordAlgorithmOnDirectedListGraphTester;
     const BellmanFordAlgorithmOnDirectedMatrixGraphTester bellmanFordAlgorithmOnDirectedMatrixGraphTester;
@@ -39,8 +59,8 @@ void Simulation::Execute()
     const PrimAlgorithmOnUndirectedListGraphTester primAlgorithmOnUndirectedListGraphTester;
     const PrimAlgorithmOnUndirectedMatrixGraphTester primAlgorithmOnUndirectedMatrixGraphTester;
     
-    // try
-    // {
+    try
+    {
         std::cout << "Start simulation: Number of iterations: " << iterations << ", OutputDir=" << testOutput << "\n";
 
         // otwarcie pliku csv dla wyników: z nazwą Simulation + biezacy_czas
@@ -57,17 +77,17 @@ void Simulation::Execute()
             {
                 const int startNode = 0;
                 const int endNode = nodeCount / 2;
-                double primAlgorithmOnUndirectedListGraphTesterTime = 0;
-                double kruskalAlgorithmOnUndirectedGraphTesterTime = 0;
+                long long primAlgorithmOnUndirectedListGraphTesterTime = 0;
+                long long kruskalAlgorithmOnUndirectedGraphTesterTime = 0;
 
-                double kruskalAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
-                double primAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
+                long long kruskalAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
+                long long primAlgorithmOnUndirectedMatrixGraphTesterTime = 0;
 
-                double dijkstryAlgorithmOnDirectedListGraphTesterTime = 0;
-                double bellmanFordAlgorithmOnDirectedListGraphTesterTime = 0;
+                long long dijkstryAlgorithmOnDirectedListGraphTesterTime = 0;
+                long long bellmanFordAlgorithmOnDirectedListGraphTesterTime = 0;
 
-                double dijkstryAlgorithmOnDirectedMatrixGraphTime = 0;
-                double bellmanFordAlgorithmOnDirectedMatrixGraphTime = 0;
+                long long dijkstryAlgorithmOnDirectedMatrixGraphTime = 0;
+                long long bellmanFordAlgorithmOnDirectedMatrixGraphTime = 0;
 
                 for (int i = 0; i < iterations; i++)
                 {
@@ -103,17 +123,18 @@ void Simulation::Execute()
                 WriteAlgorithmAverageTime(file, "BellmanFordAlgorithmOnDirectedMatrixGraphTester", fill, nodeCount, bellmanFordAlgorithmOnDirectedMatrixGraphTime / iterations);
                 
             }
-        }
+       }
         // zamknięcie pliku
         file.close();
-    // }
-    // catch
-    // (std::exception& e)
-    // {
-    //     cout << "Caught exception: " << e.what() << endl;
-    //     throw e;
-    // }
+    }
+    catch
+    (std::exception& e)
+    {
+        cout << "Caught exception: " << e.what() << endl;
+        throw e;
+    }
 }
+
 void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithmName, float fill, int nodeCount, long long avarageTime)
 {
     //"Algorithm;Fill;NodeCount;Iteration;IterationTime;Average"
@@ -123,16 +144,15 @@ void Simulation::WriteAlgorithmAverageTime(ofstream& file, const char* algorithm
     .append(";").append(to_string(nodeCount))
     .append(";-1") // Iteration
     .append(";-1") // IterationTime
-    .append(";").append(TimeUtils::FormatMicrosecondToMilliseconds(avarageTime))
+    .append(";").append(FormatDurationByNodeCount(nodeCount, avarageTime))
     .append(";");
     
-    // cout << line << "\n" << "\n";
-    // cout.flush();
+    cout << line << "\n";
+    cout.flush();
     
     file << line << "\n";
     file.flush();
 }
-
 
 
 template <typename T>
@@ -140,9 +160,9 @@ long long Simulation::ExecuteAlgorithmOnGraph(ofstream& file, const GraphMstAlgo
     const char* algorithmName, const T& graph, float fill, int nodeCount, int iteration)
 {
     const auto start = std::chrono::high_resolution_clock::now();
-    tester.TestGraphAlgorithm(graph);
+    tester.TestGraphAlgorithm(graph, false);
     const auto end = std::chrono::high_resolution_clock::now();
-    long long durationMs = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();   
+    long long durationMs = DurationByNodeCount(nodeCount, end, start);  
 
     //"Algorithm;Fill;NodeCount;Iteration;IterationTime;Average"
     std::string line;
@@ -150,7 +170,7 @@ long long Simulation::ExecuteAlgorithmOnGraph(ofstream& file, const GraphMstAlgo
     .append(";").append(to_string(fill))
     .append(";").append(to_string(nodeCount))
     .append(";").append(to_string(iteration))
-    .append(";").append(TimeUtils::FormatMicrosecondToMilliseconds(durationMs))
+    .append(";").append(FormatDurationByNodeCount(nodeCount, durationMs))
     .append(";");
     file << line << "\n";
     file.flush();
@@ -162,9 +182,9 @@ long long Simulation::ExecuteAlgorithmOnGraph(ofstream& file, const GraphShortPa
     const char* algorithmName, const T& graph, float fill, int nodeCount, int iteration, int startNode, int endNode)
 {
     const auto start = std::chrono::high_resolution_clock::now();
-    tester.TestGraphAlgorithm(graph, startNode, endNode);
+    tester.TestGraphAlgorithm(graph, startNode, endNode, false);
     const auto end = std::chrono::high_resolution_clock::now();
-    long long durationMs = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();   
+    long long durationMs = DurationByNodeCount(nodeCount, end, start);
 
     //"Algorithm;Fill;NodeCount;Iteration;IterationTime;Average"
     std::string line;
@@ -172,7 +192,7 @@ long long Simulation::ExecuteAlgorithmOnGraph(ofstream& file, const GraphShortPa
     .append(";").append(to_string(fill))
     .append(";").append(to_string(nodeCount))
     .append(";").append(to_string(iteration))
-    .append(";").append(TimeUtils::FormatMicrosecondToMilliseconds(durationMs))
+    .append(";").append(FormatDurationByNodeCount(nodeCount, durationMs))
     .append(";");
     file << line << "\n";
     file.flush();

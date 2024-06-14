@@ -165,7 +165,7 @@
     <ClCompile Include="testers\DijkstryAlgorithmOnDirectedListGraph.cpp" />
     <ClCompile Include="testers\DijkstryAlgorithmOnDirectedMatrixGraph.cpp" />
     <ClCompile Include="testers\GraphMstAlgorithmTester.cpp" />
-    <ClCompile Include="testers\KluskalAlgorithmOnUndirectedListGraphTester.cpp" />
+    <ClCompile Include="testers\KruskalAlgorithmOnUndirectedListGraphTester.cpp" />
     <ClCompile Include="testers\KruskalAlgorithmOnUndirectedMatrixGraphTester.cpp" />
     <ClCompile Include="testers\PrimAlgorithmOnUndirectedListGraphTester.cpp" />
     <ClCompile Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.cpp" />

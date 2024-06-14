@@ -21,7 +21,7 @@ public:
     }
 
     //Algorytm Prima dla listy
-    std::string TestGraphAlgorithm(const ListGraph& graph) const override {
+    std::string TestGraphAlgorithm(const ListGraph& graph, bool outputResults) const override {
         // Wierzchołek startowy z góry założony
         int startNode = 0;
         // Tablica do przechowywania minimalnych wag krawędzi
@@ -79,7 +79,7 @@ public:
         delete[] parent;
         delete[] inMST;
 
-        return oss.str();
+        if (outputResults) cout<< oss.str(); return oss.str();
     }
     
 };

@@ -56,14 +56,43 @@ template <typename T> T* FreeGraph(T* graph)
     return nullptr;
 }
 
-int main(int argc, char* argv[])
+int main1(int argc, char* argv[])
 {
     Simulation simulation;
     simulation.Execute();
-    return 0;
+    return 1;
 }
 
+
 int main2(int argc, char* argv[])
+{
+    auto graph1 = GraphGenerator::GenerateListGraphRepresentation(Undirected, 512, 0.99);
+    // auto graph1 = new ListGraph(5, Undirected);
+    // graph1->AddAdjacency(0, 1, 1);
+    // graph1->AddAdjacency(2, 4, 2);
+    // graph1->AddAdjacency(0, 2, 3);
+    // graph1->AddAdjacency(1, 2, 3);
+    // graph1->AddAdjacency(2, 3, 4);
+    // graph1->AddAdjacency(3, 4, 5);
+    // graph1->AddAdjacency(1, 3, 6);
+    
+    cout << graph1->ToString();
+    KruskalAlgorithmOnUndirectedListGraphTester test1;
+    auto graph2 = GraphGenerator::ListGraphToMatrixGraph(*graph1);
+    test1.TestGraphAlgorithm(*graph1, true);
+    delete graph1;
+
+    cout << graph2->ToString();
+    KruskalAlgorithmOnUndirectedMatrixGraphTester test2;
+    test2.TestGraphAlgorithm(*graph2, true);
+    delete graph2;
+
+    return 1;
+}
+
+
+
+int main(int argc, char* argv[])
 {
     try
     {
@@ -77,6 +106,10 @@ int main2(int argc, char* argv[])
         MatrixGraph* undirectedMatrixGraph = nullptr;
         ListGraph* directedListGraph = nullptr;
         ListGraph* undirectedListGraph = nullptr;
+
+
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
         do
         {
             cout << "\n\n";
@@ -99,14 +132,16 @@ int main2(int argc, char* argv[])
             if (std::cin.fail()) {
                 std::cout << "Cannot read node number. Presume 10." << '\n';
                 numberOfNodes = 10;
+                std::cin.clear();
             }
             
             float  fill = 0.0;
-            cout << "Fill value 0 > float < 1: ";
+            cout << "Fill value 0.0 > float < 1.0 ((d)efault = 0.5): ";
             cin >> fill;
             if (std::cin.fail()) {
                 std::cout << "Cannot read fill number. Presume 0.5" << '\n';
                 fill = 0.5f;
+                std::cin.clear();
             }
             
             string problem;
@@ -175,10 +210,10 @@ int main2(int argc, char* argv[])
                     {
                         cout << "\nList\n";
                         PrimAlgorithmOnUndirectedListGraphTester tester1;
-                        count << tester1.TestGraphAlgorithm(*undirectedListGraph).c_str();
+                        tester1.TestGraphAlgorithm(*undirectedListGraph, true);
                         cout << "\nMatrix\n";
                         PrimAlgorithmOnUndirectedMatrixGraphTester tester2;
-                        count << tester2.TestGraphAlgorithm(*undirectedMatrixGraph).c_str();
+                        tester2.TestGraphAlgorithm(*undirectedMatrixGraph, true);
                     }
                     else
                     {
@@ -187,7 +222,19 @@ int main2(int argc, char* argv[])
                 }
                 else if ( option == "4")
                 {
-                    
+                    if (problemToTest == Problem::Mst)
+                    {
+                        cout << "\nList\n";
+                        KruskalAlgorithmOnUndirectedListGraphTester tester1;
+                        tester1.TestGraphAlgorithm(*undirectedListGraph, true);
+                        cout << "\nMatrix\n";
+                        KruskalAlgorithmOnUndirectedMatrixGraphTester tester2;
+                        tester2.TestGraphAlgorithm(*undirectedMatrixGraph, true);
+                    }
+                    else
+                    {
+                        
+                    }
                 }
                 else if ( option == "7")
                 {
