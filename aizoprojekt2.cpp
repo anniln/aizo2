@@ -100,20 +100,6 @@ bool ValidateRequiredGraphs(void* graph1, void* graph2)
     return true;
 }
 
-template <typename T>
-void ExecutesPListGraphTest(GraphRepresentation repr, T* graph, GraphShortPathAlgorithmTester<><T>& tester)
-{
-    if (graph != nullptr)
-    {
-        cout << '\n' << GetGraphRepresentationName(repr).c_str() << '\n';
-        tester.TestGraphAlgorithm(*graph, true);    
-    }
-    else
-    {
-        cout << "Required graph not initialized!!" << '\n';
-    }   
-}
-
 int main(int argc, char* argv[])
 {
     try
