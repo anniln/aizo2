@@ -45,6 +45,7 @@ public:
         }
 
         // Sortowanie krawędzi według wagi
+        // TODO: use own sort implementation
         sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
             return a.value < b.value;
         });

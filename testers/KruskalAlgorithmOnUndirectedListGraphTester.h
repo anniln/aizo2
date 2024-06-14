@@ -64,6 +64,7 @@ public:
     {
         vector<Edge> edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
 
+        // TODO: use own sort implementation
         std::sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
                 return a.value < b.value;
             });        

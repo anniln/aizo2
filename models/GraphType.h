@@ -3,5 +3,6 @@
 enum GraphType
 {
     Directed,
-    Undirected
+    Undirected,
+    
 };

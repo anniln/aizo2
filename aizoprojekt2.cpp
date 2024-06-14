@@ -90,7 +90,29 @@ int main2(int argc, char* argv[])
     return 1;
 }
 
+bool ValidateRequiredGraphs(void* graph1, void* graph2)
+{
+    if (graph1 == nullptr || graph2 == nullptr)
+    {
+        cout << "Missing tester required graphs. Initialize them random or read from file";
+        return false;
+    }
+    return true;
+}
 
+template <typename T>
+void ExecutesPListGraphTest(GraphRepresentation repr, T* graph, GraphShortPathAlgorithmTester<><T>& tester)
+{
+    if (graph != nullptr)
+    {
+        cout << '\n' << GetGraphRepresentationName(repr).c_str() << '\n';
+        tester.TestGraphAlgorithm(*graph, true);    
+    }
+    else
+    {
+        cout << "Required graph not initialized!!" << '\n';
+    }   
+}
 
 int main(int argc, char* argv[])
 {
@@ -124,7 +146,7 @@ int main(int argc, char* argv[])
             string type;
             cout << "Graph type ('directed' = ('d')efault or '(u)ndirected'): ";
             cin >> type;
-            graphType = (representation == "u" || representation == "undirected") ? GraphType::Undirected : GraphType::Directed;
+            graphType = (type == "u" || type == "undirected") ? GraphType::Undirected : GraphType::Directed;
 
             int numberOfNodes = 0;
             cout << "Number of nodes: ";
@@ -161,8 +183,8 @@ int main(int argc, char* argv[])
                     << ", problem: " << GetProblemName(problemToTest)
                 << "\n";
                 cout << "'0' - Read data from file \n";
-                cout << "'1' - Generate random graph \n";
-                cout << "'2' - Print graph \n";
+                cout << "'1' - Generate random graphs \n";
+                cout << "'2' - Print graphs \n";
                 cout << "'3' - Algorithm " << (problemToTest == Problem::Mst ? "Prim" : "Dijkstra") << "\n";
                 cout << "'4' - Algorithm " << (problemToTest == Problem::Mst ? "Kruskal" : "Ford-Bellmann") << "\n";
                 cout << '\n';
@@ -217,7 +239,16 @@ int main(int argc, char* argv[])
                     }
                     else
                     {
-                        
+                        int startNode, endNode;
+                        cout << "Start Node: "; cin >> startNode;
+                        cout << ", End Node: "; cin >> endNode;
+
+                        cout << "\nList\n";
+                        DijkstryAlgorithmOnDirectedListGraph tester1;
+                        tester1.TestGraphAlgorithm(*directedListGraph, startNode, endNode, true);
+                        cout << "\nMatrix\n";
+                        DijkstryAlgorithmOnDirectedMatrixGraph tester2;
+                        tester2.TestGraphAlgorithm(*directedMatrixGraph, startNode, endNode, true);
                     }
                 }
                 else if ( option == "4")
@@ -233,7 +264,16 @@ int main(int argc, char* argv[])
                     }
                     else
                     {
-                        
+                        int startNode, endNode;
+                        cout << "Start Node: "; cin >> startNode;
+                        cout << ", End Node: "; cin >> endNode;
+
+                        cout << "\nList\n";
+                        BellmanFordAlgorithmOnDirectedListGraphTester tester1;
+                        tester1.TestGraphAlgorithm(*directedListGraph, startNode, endNode, true);
+                        cout << "\nMatrix\n";
+                        BellmanFordAlgorithmOnDirectedMatrixGraphTester tester2;
+                        tester2.TestGraphAlgorithm(*undirectedMatrixGraph, startNode, endNode, true);
                     }
                 }
                 else if ( option == "7")
