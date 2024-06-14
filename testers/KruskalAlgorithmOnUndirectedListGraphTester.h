@@ -64,7 +64,6 @@ public:
     {
         vector<Edge> edges = graph.GetEdges(); // Pobieranie wszystkich krawędzi z grafu
 
-        // TODO: use own sort implementation
         std::sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
                 return a.value < b.value;
             });        
@@ -92,39 +91,4 @@ public:
         return oss.str();
     }
 private:
-    static void HeapSort(std::vector<Edge>& vec) {
-        HeapCreateDown(vec);
-
-        for (int i = vec.size() - 1; i > 0; i--) {
-            std::swap(vec[0].value, vec[i].value);
-            HeapFixDown(vec, 0, i);
-        }
-    }
-
-    static void HeapCreateDown(std::vector<Edge>& vec) {
-        for (int i = (vec.size() - 1 - 1) / 2; i >= 0; --i) {
-            HeapFixDown(vec, i, vec.size());
-        }
-    }
-
-    static void HeapFixDown(std::vector<Edge>& vec, int index, int size) {
-        while (index < size) {
-            int leftChild = 2 * index + 1;
-            int rightChild = 2 * index + 2;
-            int parent = index;
-
-            if (leftChild < size && vec[leftChild].value > vec[parent].value)
-                parent = leftChild;
-            if (rightChild < size && vec[rightChild].value > vec[parent].value)
-                parent = rightChild;
-
-            if (parent != index) {
-                std::swap(vec[index].value, vec[parent].value);
-                index = parent;
-            } else {
-                break;
-            }
-        }
-    }
 };
-;
