@@ -168,11 +168,11 @@ int main(int argc, char* argv[])
                     << ", Fill value: " << std::fixed << std::setprecision(2) << fill
                     << ", problem: " << GetProblemName(problemToTest)
                 << "\n";
-                cout << "'0' - Read data from file \n";
-                cout << "'1' - Generate random graphs \n";
-                cout << "'2' - Print graphs \n";
-                cout << "'3' - Algorithm " << (problemToTest == Problem::Mst ? "Prim" : "Dijkstra") << "\n";
-                cout << "'4' - Algorithm " << (problemToTest == Problem::Mst ? "Kruskal" : "Ford-Bellmann") << "\n";
+                cout << "'1' - Read data from file \n";
+                cout << "'2' - Generate random graphs \n";
+                cout << "'3' - Print graphs \n";
+                cout << "'4' - Algorithm " << (problemToTest == Problem::Mst ? "Prim" : "Dijkstra") << "\n";
+                cout << "'5' - Algorithm " << (problemToTest == Problem::Mst ? "Kruskal" : "Ford-Bellmann") << "\n";
                 cout << '\n';
                 cout << "'7' - Simulation - Output be written to C:\\Temp\\GraphTest" << "\n";
                 cout << "'9' - Back to previous menu" << "\n";
