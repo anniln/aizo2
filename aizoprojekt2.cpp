@@ -105,6 +105,7 @@ int main(int argc, char* argv[])
     try
     {
         string testOutput = R"(C:\Temp\SortTest)";
+        string graphFilePath = testOutput + R"\graph.txt";
 
         auto graphRepresentation = GraphRepresentation::List;
         auto graphType = GraphType::Directed;
@@ -178,11 +179,27 @@ int main(int argc, char* argv[])
                 cout << "'9' - Back to previous menu" << "\n";
                 cin >> option;
                 
-                if (option == "0")
+                if (option == "1")
                 {
+                    cout << "File path (use " << graphFilePath << " as (d)efault)";
+                    cin >> graphFilePath;
                     
+                    if (graphType == GraphType::Directed)
+                    {
+                        directedListGraph = FreeGraph<ListGraph>(directedListGraph);
+                        directedMatrixGraph = FreeGraph<MatrixGraph>(directedMatrixGraph);
+                        directedListGraph = GraphGenerator::GenerateListGraphRepresentation(graphType, numberOfNodes, fill);
+                        directedMatrixGraph = GraphGenerator::ListGraphToMatrixGraph(*directedListGraph);
+                    }
+                    else
+                    {
+                        undirectedListGraph = FreeGraph<ListGraph>(undirectedListGraph);
+                        undirectedMatrixGraph = FreeGraph<MatrixGraph>(undirectedMatrixGraph);
+                        undirectedListGraph = GraphGenerator::GenerateListGraphRepresentation(graphType, numberOfNodes, fill);
+                        undirectedMatrixGraph = GraphGenerator::ListGraphToMatrixGraph(*undirectedListGraph);
+                    }
                 }
-                else if (option == "1")
+                else if (option == "2")
                     {
                         if (graphType == GraphType::Directed)
                         {
@@ -199,7 +216,7 @@ int main(int argc, char* argv[])
                             undirectedMatrixGraph = GraphGenerator::ListGraphToMatrixGraph(*undirectedListGraph);
                         }
                     }
-                else if ( option == "2")
+                else if ( option == "3")
                     {
                         if (graphType == GraphType::Directed)
                         {                        
@@ -212,7 +229,7 @@ int main(int argc, char* argv[])
                             if (undirectedMatrixGraph != nullptr)  cout << undirectedMatrixGraph->ToString() << '\n';
                         }
                     }
-                else if ( option == "3")
+                else if ( option == "4")
                 {
                     if (problemToTest == Problem::Mst)
                     {
@@ -237,7 +254,7 @@ int main(int argc, char* argv[])
                         tester2.TestGraphAlgorithm(*directedMatrixGraph, startNode, endNode, true);
                     }
                 }
-                else if ( option == "4")
+                else if ( option == "5")
                 {
                     if (problemToTest == Problem::Mst)
                     {
