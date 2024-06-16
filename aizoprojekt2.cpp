@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
     try
     {
         string testOutput = R"(C:\Temp\SortTest)";
-        string graphFilePath = testOutput + R"\graph.txt";
+        string graphFilePath = testOutput + R"(\graph.txt)";
 
         auto graphRepresentation = GraphRepresentation::List;
         auto graphType = GraphType::Directed;
