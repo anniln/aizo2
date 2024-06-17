@@ -31,7 +31,7 @@ public:
         for (int i = 1; i <= nodeCount - 1; ++i)
         {
             // Przechodzimy przez każdą krawędź w grafie
-            for (int e = 0; e < edgeCount; ++e)
+            for (int e = 0; e < edgeCount*graph.edgeMultiplier; ++e)
             {
                 int u = graph.GetFromNode(e);  // wierzchołek początkowy krawędzi
                 int v = graph.GetToNode(e);  // wierzchołek końcowy krawędzi
@@ -55,7 +55,7 @@ public:
 
         // Sprawdzenie cyklu ujemnego (u nas nie będzie)
         std::ostringstream oss;
-        for (int e = 0; e < edgeCount; ++e)
+        for (int e = 0; e < edgeCount*graph.edgeMultiplier; ++e)
         {
             int u = graph.GetFromNode(e);  
             int v = graph.GetToNode(e);

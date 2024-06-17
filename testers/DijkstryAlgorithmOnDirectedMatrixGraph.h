@@ -42,7 +42,7 @@ public:
             sptSet[u] = true; // Oznaczamy wierzchołek jako odwiedzony
 
             // Iterujemy przez kolumny macierzy incydencji
-            for (int v = 0; v < graph.edgeCount; v++)
+            for (int v = 0; v < graph.edgeCount*graph.edgeMultiplier; v++)
             {
                 if (graph.values[u][v] > 0) // Sprawdzamy czy istnieje krawędź z wierzchołka u do v
                 {

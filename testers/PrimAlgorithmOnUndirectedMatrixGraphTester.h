@@ -51,7 +51,7 @@ public:
             // znalezienie wierzchołka o minimalnym kluczu, który nie jest jeszcze w MST
             inMST[u] = true; // dodanie wierzchołka do MST
 
-            for (int e = 0; e < graph.edgeCount; ++e)
+            for (int e = 0; e < graph.edgeCount*graph.edgeMultiplier; ++e)
             {
                 // iteracja po wszystkich krawędziach
                 if (graph.values[u][e] != 0)

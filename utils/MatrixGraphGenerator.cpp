@@ -55,7 +55,7 @@ bool GraphGenerator::EdgeExists(const MatrixGraph& matrixGraph, int fromNode, in
 ListGraph* GraphGenerator::MatrixGraphToListGraph(const MatrixGraph& matrixGraph)
 {
     ListGraph* listGraph = new ListGraph(matrixGraph.nodeCount);
-    for (int i = 0; i < matrixGraph.edgeCount * 2; i++)
+    for (int i = 0; i < matrixGraph.edgeCount * matrixGraph.edgeMultiplier; i++)
     {
         int fromNode = -1;
         int toNode = -1;

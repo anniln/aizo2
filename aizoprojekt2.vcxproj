@@ -170,6 +170,7 @@
     <ClCompile Include="testers\PrimAlgorithmOnUndirectedListGraphTester.cpp" />
     <ClCompile Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.cpp" />
     <ClCompile Include="utils\ArrayUtils.cpp" />
+    <ClCompile Include="utils\GraphFileReader.cpp" />
     <ClCompile Include="utils\ListGraphGenerator.cpp" />
     <ClCompile Include="utils\MatrixGraphGenerator.cpp" />
     <ClCompile Include="utils\RandomGenerator.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="testers\PrimAlgorithmOnUndirectedListGraphTester.h" />
     <ClInclude Include="testers\PrimAlgorithmOnUndirectedMatrixGraphTester.h" />
     <ClInclude Include="utils\ArrayUtils.h" />
+    <ClInclude Include="utils\GraphFileReader.h" />
     <ClInclude Include="utils\GraphGenerator.h" />
     <ClInclude Include="utils\NumberUtils.h" />
     <ClInclude Include="utils\RandomGenerator.h" />
