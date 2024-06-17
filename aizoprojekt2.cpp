@@ -161,6 +161,7 @@ int main(int argc, char* argv[])
             do
             {
                 cout << "\n\n";
+                cout << "==================================================================================\n";
                 cout << "Menu for graph: "
                     << GetGraphRepresentationName(graphRepresentation)
                     << ", GraphType: " << (graphType == GraphType::Directed ? "Directed" : "Undirected")

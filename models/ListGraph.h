@@ -15,17 +15,22 @@ struct Adjacency
     std::string ToString() const;
 };
 
+
+
+
 struct ListGraph
 {
     GraphType graphType;
     int nodeCount;
     int edgeCount;
-    std::vector<std::vector<Adjacency>> nodes;
+    
+    std::vector<std::vector<Adjacency>> nodes; // Lista krawędzi do sąsiadów skierowanych dla wierzchołka
 
-    ListGraph(int nodeCount, GraphType graphType = Undirected);
+    ListGraph(int nodeCount, GraphType graphType);
+    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value);
+    
     static bool AdjacencyExists(const std::vector<Adjacency>& nodeAdjacencies, int toNode);
     bool AdjacencyExists(int fromNode, int toNode) const;
-    void AddAdjacency(const int fromNode, const int toNode, const unsigned int value);
     std::vector<Edge> GetEdges() const;
     std::string ToString() const;
 };

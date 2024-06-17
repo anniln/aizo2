@@ -4,12 +4,10 @@
 std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const MatrixGraph& graph, int startNode, int endNode,
                                bool outputResults) const 
 {
-    int nodeCount = graph.nodeCount;
-    unsigned int* distances = new unsigned int[nodeCount];
-    // Tablica przechowująca odległości od wierzchołka startowego
+    int nodeCount = graph.nodeCount; // Liczba wierzchołków w grafie
+    unsigned int* distances = new unsigned int[nodeCount]; // Tablica przechowująca odległości od wierzchołka startowego
     int* predecessors = new int[nodeCount]; // Tablica przechowująca poprzedników w najkrótszej ścieżce
-    bool* sptSet = new bool[nodeCount];
-    // Tablica przechowująca informacje o tym, czy wierzchołek został już odwiedzony
+    bool* sptSet = new bool[nodeCount]; // Tablica przechowująca informacje o tym, czy wierzchołek został już odwiedzony
 
     // Inicjalizacja
     for (int i = 0; i < nodeCount; i++)
@@ -34,14 +32,12 @@ std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const Mat
         // Iterujemy przez kolumny macierzy incydencji
         for (int v = 0; v < graph.edgeCount * graph.edgeMultiplier; v++)
         {
-            if (graph.values[u][v] > 0) // Sprawdzamy czy istnieje krawędź z wierzchołka u do v
+            if (graph.values[u][v] > 0) // Sprawdzamy, czy istnieje krawędź z wierzchołka u do v
             {
-                // int neighborIndex = (graph.values[u][v] > 0) ? 1 : 0; // Indeks wierzchołka sąsiedniego
-                // int neighbor = (graph.values[u][v] > 0) ? graph.values[u][v] - 1 : -graph.values[u][v] - 1; // Numer wierzchołka sąsiedniego
-                // unsigned int weight = abs(graph.values[neighbor][neighborIndex]); // Waga krawędzi
-
                 unsigned int weight = graph.values[u][v]; // Waga krawędzi
-                const int neighbor = graph.GetToNode(v);
+                const int neighbor = graph.GetToNode(v); // Pobieramy wierzchołek sąsiedni
+
+                // Aktualizacja odległości do sąsiada, jeśli znaleziono krótszą ścieżkę
                 if (!sptSet[neighbor] && distances[u] != UINT_MAX && distances[u] + weight < distances[neighbor])
                 {
                     distances[neighbor] = distances[u] + weight; // Aktualizacja odległości do sąsiada
@@ -54,25 +50,22 @@ std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const Mat
     // Wypisywanie wyników
     std::ostringstream oss;
     oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[
-        endNode] << "\n";
+        endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
 
     oss << "Path: ";
     if (distances[endNode] == UINT_MAX)
     {
-        oss << "No path\n";
+        oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
     }
     else
     {
         int* path = new int[nodeCount]; // Tablica przechowująca wierzchołki w najkrótszej ścieżce
         int path_index = 0;
         for (int at = endNode; at != -1; at = predecessors[at])
-        // Iteracja od wierzchołka docelowego do początkowego
         {
             path[path_index++] = at; // Dodawanie wierzchołków do ścieżki
-            //oss << "predecessor" << at << " " << predecessors[at] << "\n";
         }
-        std::reverse(path, path + path_index);
-        // Odwrócenie tablicy, aby ścieżka była w kolejności od wierzchołka początkowego do docelowego
+        std::reverse(path, path + path_index); // Odwrócenie tablicy, aby ścieżka była w kolejności od wierzchołka początkowego do docelowego
         for (int i = 0; i < path_index; ++i)
         {
             oss << path[i] << " "; // Wypisanie ścieżki
@@ -82,31 +75,30 @@ std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const Mat
     }
 
     // Zwolnienie pamięci
-    delete[] distances;
-    delete[] predecessors;
-    delete[] sptSet;
+    delete[] distances; // Zwolnienie pamięci tablicy odległości
+    delete[] predecessors; // Zwolnienie pamięci tablicy poprzedników
+    delete[] sptSet; // Zwolnienie pamięci tablicy sptSet
 
     if (outputResults)
-        std::cout << oss.str();
+        std::cout << oss.str(); // Wyświetlenie wyniku, jeśli to wymagane
 
-    return oss.str();
+    return oss.str(); // Zwrócenie wyniku
 }
 
 // Funkcja pomocnicza do znalezienia minimalnej wartości w tablicy
 int DijkstryAlgorithmOnDirectedMatrixGraph::MinDistance(unsigned int dist[], bool sptSet[], int nodeCount) const
 {
-    unsigned int min = UINT_MAX;
-    int min_index = -1;
+    unsigned int min = UINT_MAX; // Ustawienie minimalnej odległości na nieskończoność
+    int min_index = -1; // Indeks wierzchołka o najmniejszej odległości
 
     for (int v = 0; v < nodeCount; v++)
-        if (!sptSet[v] && dist[v] <= min)
+        if (!sptSet[v] && dist[v] <= min) // Jeśli wierzchołek v nie został przetworzony i ma mniejszą odległość niż obecnie minimalna
         {
-            min = dist[v];
-            min_index = v;
+            min = dist[v]; // Aktualizacja minimalnej odległości
+            min_index = v; // Ustawienie indeksu wierzchołka o minimalnej odległości
         }
 
     return min_index; // Zwracamy indeks wierzchołka o najmniejszej odległości
 }
-
 
 

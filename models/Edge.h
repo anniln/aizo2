@@ -6,7 +6,8 @@ using namespace std;
 
 struct Edge
 {
-    int edge;
+    int edge; // dla przyszłego użycia listy krawędzi
+    
     int fromNode, toNode;
     unsigned int value;
 

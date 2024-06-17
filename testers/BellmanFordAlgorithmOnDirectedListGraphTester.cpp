@@ -5,33 +5,32 @@
 std::string BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(const ListGraph& graph, int startNode,
                                                                               int endNode, bool outputResults) const
 {
-    int nodeCount = graph.nodeCount;
-    int* distance = new int[nodeCount];
-    int* predecessor = new int[nodeCount];
+    int nodeCount = graph.nodeCount; // Liczba wierzchołków w grafie
+    int* distance = new int[nodeCount]; // Tablica odległości od wierzchołka startowego do każdego innego wierzchołka
+    int* predecessor = new int[nodeCount]; // Tablica poprzedników do rekonstrukcji ścieżki
 
     // Inicjalizacja odległości
     for (int i = 0; i < nodeCount; ++i)
     {
-        distance[i] = UINT_MAX;
-        predecessor[i] = -1;
+        distance[i] = UINT_MAX; // Ustawienie początkowej odległości jako nieskończoność (reprezentowana przez UINT_MAX)
+        predecessor[i] = -1; // Ustawienie poprzedników na -1 (brak poprzednika)
     }
-    distance[startNode] = 0;
+    distance[startNode] = 0; // Odległość do wierzchołka startowego wynosi 0
 
     // Relaksacja krawędzi
-    for (int i = 1; i <= nodeCount - 1; ++i)
+    for (int i = 1; i <= nodeCount - 1; ++i) // Powtarzanie procesu relaksacji |V| - 1 razy
     {
-        for (int u = 0; u < nodeCount; ++u)
+        for (int u = 0; u < nodeCount; ++u) // Dla każdego wierzchołka u
         {
-            auto adjs = graph.nodes[u];
-            for (auto adj : adjs)
+            auto adjs = graph.nodes[u]; // Pobieranie sąsiadów wierzchołka u
+            for (auto adj : adjs) // Dla każdego sąsiada adj wierzchołka u
             {
-                int v = adj.adjacentTo;
-                unsigned int weight = adj.value;
-                if (distance[u] != UINT_MAX &&
-                    distance[u] + weight < distance[v])
+                int v = adj.adjacentTo; // Wierzchołek sąsiedni v
+                unsigned int weight = adj.value; // Waga krawędzi (u, v)
+                if (distance[u] != UINT_MAX && distance[u] + weight < distance[v]) // Jeśli możliwe jest skrócenie ścieżki do v przez u
                 {
-                    distance[v] = distance[u] + weight;
-                    predecessor[v] = u;
+                    distance[v] = distance[u] + weight; // Aktualizacja odległości do v
+                    predecessor[v] = u; // Ustawienie poprzednika v na u
                 }
             }
         }
@@ -39,52 +38,60 @@ std::string BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(co
 
     // Sprawdzenie cyklu ujemnego
     std::ostringstream oss;
-    for (int u = 0; u < nodeCount; ++u)
+    for (int u = 0; u < nodeCount; ++u) // Dla każdego wierzchołka u
     {
-        auto adjs = graph.nodes[u];
-        for (auto adj : adjs)
+        auto adjs = graph.nodes[u]; // Pobieranie sąsiadów wierzchołka u
+        for (auto adj : adjs) // Dla każdego sąsiada adj wierzchołka u
         {
-            int v = adj.adjacentTo;
-            unsigned int weight = adj.value;
-            if (distance[u] != UINT_MAX &&
-                distance[u] + weight < distance[v])
+            int v = adj.adjacentTo; // Wierzchołek sąsiedni v
+            unsigned int weight = adj.value; // Waga krawędzi (u, v)
+            if (distance[u] != UINT_MAX && distance[u] + weight < distance[v]) // Jeśli można jeszcze skrócić odległość do v, to istnieje cykl ujemny
             {
-                oss << "Cykl ujemny wykryty" << "\n";
-                delete[] distance;
-                delete[] predecessor;
-                if (outputResults) cout << oss.str();
-                return oss.str();
+                oss << "Cykl ujemny wykryty" << "\n"; // Wykrycie cyklu ujemnego
+                delete[] distance; // Zwolnienie pamięci tablicy odległości
+                delete[] predecessor; // Zwolnienie pamięci tablicy poprzedników
+                if (outputResults) cout << oss.str(); // Wyświetlenie wyniku, jeśli to wymagane
+                return oss.str(); // Zwrócenie wyniku
             }
         }
     }
 
     // Wyświetlanie najkrótszej ścieżki
     oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distance[
-        endNode] << "\n";
+        endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
 
     // Konstruowanie ścieżki
     oss << "Path: ";
-    int current = endNode;
-    int* path = new int[nodeCount]; // dynamiczna tablica do przechowywania ścieżki
-    int pathLength = 0;
-
-    while (current != -1)
+    if (distance[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
     {
-        path[pathLength++] = current;
-        current = predecessor[current];
+        oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
+    }
+    else
+    {
+        int current = endNode; // Zaczynamy od wierzchołka końcowego
+        int* path = new int[nodeCount]; // Dynamiczna tablica do przechowywania ścieżki
+        int pathLength = 0; // Długość ścieżki
+
+        while (current != -1) // Przechodzenie wstecz po poprzednikach aż do wierzchołka startowego
+        {
+            path[pathLength++] = current; // Dodanie aktualnego wierzchołka do ścieżki
+            current = predecessor[current]; // Przejście do poprzednika
+        }
+
+        // Drukowanie ścieżki w odpowiedniej kolejności
+        for (int i = pathLength - 1; i >= 0; --i) // Iterowanie od końca do początku, aby wydrukować ścieżkę od wierzchołka startowego do końcowego
+        {
+            oss << path[i] << " "; // Dodanie wierzchołka do wyniku
+        }
+        oss << "\n"; 
+        delete[] path; // Zwolnienie pamięci tablicy ścieżki
     }
 
-    // Drukowanie ścieżki w odpowiedniej kolejności
-    for (int i = pathLength - 1; i >= 0; --i)
-    {
-        oss << path[i] << " ";
-    }
-    oss << "\n";
+    //Zwalnianie pamięci
+    delete[] distance; // Zwolnienie pamięci tablicy odległości
+    delete[] predecessor; // Zwolnienie pamięci tablicy poprzedników
 
-    // Sprzątanie
-    delete[] distance;
-    delete[] predecessor;
-    delete[] path;
-    if (outputResults) cout << oss.str();
-    return oss.str();
+    if (outputResults) // Jeśli wymagane jest wyświetlenie wyników
+        cout << oss.str(); // Wyświetlenie wyniku
+    return oss.str(); // Zwrócenie wyniku
 }
