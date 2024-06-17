@@ -45,31 +45,57 @@ std::string DijkstryAlgorithmOnDirectedListGraph::TestGraphAlgorithm(const ListG
         }
     }
 
+    //// Wypisywanie wyników
+    //std::ostringstream oss;
+    //oss << "Total cost (shortest path Dijkstry) from node " << startNode << " to node " << endNode << " is: " <<
+    //    distances[endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
+//
+    //oss << "Path: ";
+    //if (distances[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
+    //{
+    //    oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
+    //}
+    //else
+    //{
+    //    int* path = new int[nodeCount]; // Dynamiczna tablica do przechowywania ścieżki
+    //    int path_index = 0; // Indeks ścieżki
+    //    for (int at = endNode; at != -1; at = predecessors[at])
+    //    {
+    //        path[path_index++] = at; // Dodanie wierzchołka do ścieżki
+    //    }
+    //    std::reverse(path, path + path_index); // Odwrócenie ścieżki, aby zaczynała się od wierzchołka startowego
+    //    for (int i = 0; i < path_index; ++i)
+    //    {
+    //        oss << path[i] << " "; // Dodanie wierzchołka do wyniku
+    //    }
+    //    oss << "\n"; // Nowa linia na końcu ścieżki
+    //    delete[] path; // Zwolnienie pamięci tablicy ścieżki
+    //}
+
     // Wypisywanie wyników
     std::ostringstream oss;
-    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " <<
-        distances[endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
+    std::vector<int> path;
+    int current = endNode;
+    while (current != -1) {
+        path.push_back(current);
+        current = predecessors[current];
+    }
 
     oss << "Path: ";
-    if (distances[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
-    {
-        oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
-    }
-    else
-    {
-        int* path = new int[nodeCount]; // Dynamiczna tablica do przechowywania ścieżki
-        int path_index = 0; // Indeks ścieżki
-        for (int at = endNode; at != -1; at = predecessors[at])
-        {
-            path[path_index++] = at; // Dodanie wierzchołka do ścieżki
+    if (path.size() == 1 && path[0] == endNode) { // Brak ścieżki
+        //oss << "No path exists from node " << startNode << " to node " << endNode << "\n";
+        oss << "no path\n";
+    } else {
+        std::reverse(path.begin(), path.end());
+        for (size_t i = 0; i < path.size(); ++i) {
+            if (i > 0) {
+                int u = path[i-1];
+                int v = path[i];
+                int edgeWeight = distances[v] - distances[u]; // Obliczenie wagi krawędzi
+                oss << u << " -> " << v << " (Weight: " << edgeWeight << ") ";
+            }
         }
-        std::reverse(path, path + path_index); // Odwrócenie ścieżki, aby zaczynała się od wierzchołka startowego
-        for (int i = 0; i < path_index; ++i)
-        {
-            oss << path[i] << " "; // Dodanie wierzchołka do wyniku
-        }
-        oss << "\n"; // Nowa linia na końcu ścieżki
-        delete[] path; // Zwolnienie pamięci tablicy ścieżki
+        oss << "\nTotal cost (shortest path Dijkstry) from node " << startNode << " to node " << endNode << " is: " << distances[endNode] << "\n";
     }
 
     // Zwolnienie pamięci

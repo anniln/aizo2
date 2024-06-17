@@ -49,13 +49,11 @@ std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const Mat
 
     // Wypisywanie wyników
     std::ostringstream oss;
-    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distances[
-        endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
 
     oss << "Path: ";
     if (distances[endNode] == UINT_MAX)
     {
-        oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
+        oss << "no path\n"; // Wyświetlenie informacji o braku ścieżki
     }
     else
     {
@@ -70,7 +68,9 @@ std::string DijkstryAlgorithmOnDirectedMatrixGraph::TestGraphAlgorithm(const Mat
         {
             oss << path[i] << " "; // Wypisanie ścieżki
         }
-        oss << "\n";
+
+        oss << "Total cost (shortest path Dijkstry) from node " << startNode << " to node " << endNode << " is: " << distances[endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
+
         delete[] path; // Zwolnienie pamięci zaalokowanej dla tablicy ścieżki
     }
 

@@ -56,36 +56,62 @@ std::string BellmanFordAlgorithmOnDirectedListGraphTester::TestGraphAlgorithm(co
         }
     }
 
-    // Wyświetlanie najkrótszej ścieżki
-    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " << distance[
-        endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
+    //// Wyświetlanie najkrótszej ścieżki
+    //oss << "Total cost (shortest path Bellman-Ford) from node " << startNode << " to node " << endNode << " is: " << distance[
+    //    endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
 
-    // Konstruowanie ścieżki
+    //// Konstruowanie ścieżki
+    //oss << "Path: ";
+    //if (distance[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
+    //{
+    //    oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
+    //}
+    //else
+    //{
+    //    int current = endNode; // Zaczynamy od wierzchołka końcowego
+    //    int* path = new int[nodeCount]; // Dynamiczna tablica do przechowywania ścieżki
+    //    int pathLength = 0; // Długość ścieżki
+
+    //    while (current != -1) // Przechodzenie wstecz po poprzednikach aż do wierzchołka startowego
+    //    {
+    //        path[pathLength++] = current; // Dodanie aktualnego wierzchołka do ścieżki
+    //        current = predecessor[current]; // Przejście do poprzednika
+    //    }
+
+    //    // Drukowanie ścieżki w odpowiedniej kolejności
+    //    for (int i = pathLength - 1; i >= 0; --i) // Iterowanie od końca do początku, aby wydrukować ścieżkę od wierzchołka startowego do końcowego
+    //    {
+    //        oss << path[i] << " "; // Dodanie wierzchołka do wyniku
+    //    }
+    //    oss << "\n"; 
+    //    delete[] path; // Zwolnienie pamięci tablicy ścieżki
+    //}
+
+    // Wyświetlanie najkrótszej ścieżki i wag
+    std::vector<int> path;
+    int current = endNode;
+    while (current != -1) {
+        path.push_back(current);
+        current = predecessor[current];
+    }
+
     oss << "Path: ";
-    if (distance[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
-    {
-        oss << "No path\n"; // Wyświetlenie informacji o braku ścieżki
-    }
-    else
-    {
-        int current = endNode; // Zaczynamy od wierzchołka końcowego
-        int* path = new int[nodeCount]; // Dynamiczna tablica do przechowywania ścieżki
-        int pathLength = 0; // Długość ścieżki
-
-        while (current != -1) // Przechodzenie wstecz po poprzednikach aż do wierzchołka startowego
-        {
-            path[pathLength++] = current; // Dodanie aktualnego wierzchołka do ścieżki
-            current = predecessor[current]; // Przejście do poprzednika
+    if (path.size() == 1 && path[0] == endNode) { // Brak ścieżki
+        oss << "No path\n";
+    } else {
+        reverse(path.begin(), path.end());
+        
+        for (size_t i = 0; i < path.size(); ++i) {
+            if (i > 0) {
+                int u = path[i-1];
+                int v = path[i];
+                int edgeWeight = distance[v] - distance[u]; // Obliczenie wagi krawędzi
+                oss << u << " -> " << v << " (Weight: " << edgeWeight << ") ";
+            }
         }
-
-        // Drukowanie ścieżki w odpowiedniej kolejności
-        for (int i = pathLength - 1; i >= 0; --i) // Iterowanie od końca do początku, aby wydrukować ścieżkę od wierzchołka startowego do końcowego
-        {
-            oss << path[i] << " "; // Dodanie wierzchołka do wyniku
-        }
-        oss << "\n"; 
-        delete[] path; // Zwolnienie pamięci tablicy ścieżki
+        oss << "\nTotal cost (shortest path Bellman-Ford) from node " << startNode << " to node " << endNode << " is: " << distance[endNode] << "\n";
     }
+
 
     //Zwalnianie pamięci
     delete[] distance; // Zwolnienie pamięci tablicy odległości

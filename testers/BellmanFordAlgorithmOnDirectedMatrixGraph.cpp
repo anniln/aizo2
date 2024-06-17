@@ -65,10 +65,6 @@ std::string BellmanFordAlgorithmOnDirectedMatrixGraphTester::TestGraphAlgorithm(
         }
     }
 
-    // Wyświetlanie najkrótszej ścieżki
-    oss << "Total cost (shortest path) from node " << startNode << " to node " << endNode << " is: " <<
-        distance[endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
-
     // Konstruowanie ścieżki
     oss << "Path: ";
     if (distance[endNode] == UINT_MAX) // Jeśli nie ma ścieżki do wierzchołka końcowego
@@ -92,7 +88,8 @@ std::string BellmanFordAlgorithmOnDirectedMatrixGraphTester::TestGraphAlgorithm(
         {
             oss << path[i] << " "; // Dodanie wierzchołka do wyniku
         }
-        oss << "\n"; // Nowa linia na końcu ścieżki
+        // Wyświetlanie najkrótszej ścieżki
+        oss << "Total cost (shortest path Bellman-Ford) from node " << startNode << " to node " << endNode << " is: " << distance[endNode] << "\n"; // Wyświetlenie całkowitego kosztu najkrótszej ścieżki od wierzchołka startowego do końcowego
         delete[] path; // Zwolnienie pamięci tablicy ścieżki
     }
 
